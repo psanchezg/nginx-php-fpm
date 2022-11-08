@@ -12,23 +12,24 @@ If you have improvements or suggestions please open an issue or pull request on 
 ### Versioning
 | Docker Tag | Git Release | Nginx Version | PHP Version | Alpine Version |
 |-----|-------|-----|--------|--------|
-| latest/1.7.4 | Master Branch |1.16.0 | 7.3.8 | 3.9 |
+| 1.8.0 | Master Branch |1.22.1 | 7.4.33 | 3.16 |
 
-For other tags please see: [versioning](https://gitlab.com/ric_harvey/nginx-php-fpm/blob/master/docs/versioning.md)
+For other tags please see: [versioning](https://github.com/psanchezg/nginx-php-fpm/tree/main/docs/versioning.md)
 
 ### Links
+- [https://github.com/richarvey/nginx-php-fpm](https://github.com/richarvey/nginx-php-fpm)
 - [https://gitlab.com/ric_harvey/nginx-php-fpm](https://gitlab.com/ric_harvey/nginx-php-fpm)
 - [https://registry.hub.docker.com/u/richarvey/nginx-php-fpm/](https://registry.hub.docker.com/u/richarvey/nginx-php-fpm/)
 
 ## Quick Start
 To pull from docker hub:
 ```
-docker pull richarvey/nginx-php-fpm:latest
+docker pull psanchezg/nginx-php-fpm:1.8.0
 ```
 ### Running
 To simply run the container:
 ```
-sudo docker run -d richarvey/nginx-php-fpm
+sudo docker run -d psanchezg/nginx-php-fpm
 ```
 To dynamically pull code from git when starting:
 ```
@@ -40,29 +41,29 @@ You can then browse to ```http://<DOCKER_HOST>``` to view the default install fi
 For more detailed examples and explanations please refer to the documentation.
 ## Documentation
 
-- [Building from source](https://gitlab.com/ric_harvey/nginx-php-fpm/blob/master/docs/building.md)
-- [Versioning](https://gitlab.com/ric_harvey/nginx-php-fpm/blob/master/docs/versioning.md)
-- [Config Flags](https://gitlab.com/ric_harvey/nginx-php-fpm/blob/master/docs/config_flags.md)
-- [Git Auth](https://gitlab.com/ric_harvey/nginx-php-fpm/blob/master/docs/git_auth.md)
-  - [Personal Access token](https://gitlab.com/ric_harvey/nginx-php-fpm/blob/master/docs/git_auth.md#personal-access-token)
-  - [SSH Keys](https://gitlab.com/ric_harvey/nginx-php-fpm/blob/master/docs/git_auth.md#ssh-keys)
-- [Git Commands](https://gitlab.com/ric_harvey/nginx-php-fpm/blob/master/docs/git_commands.md)
- - [Push](https://gitlab.com/ric_harvey/nginx-php-fpm/blob/master/docs/git_commands.md#push-code-to-git)
- - [Pull](https://gitlab.com/ric_harvey/nginx-php-fpm/blob/master/docs/git_commands.md#pull-code-from-git-refresh)
-- [Repository layout / webroot](https://gitlab.com/ric_harvey/nginx-php-fpm/blob/master/docs/repo_layout.md)
- - [webroot](https://gitlab.com/ric_harvey/nginx-php-fpm/blob/master/docs/repo_layout.md#src--webroot)
-- [User / Group Identifiers](https://gitlab.com/ric_harvey/nginx-php-fpm/blob/master/docs/UID_GID_Mapping.md)
-- [Custom Nginx Config files](https://gitlab.com/ric_harvey/nginx-php-fpm/blob/master/docs/nginx_configs.md)
- - [REAL IP / X-Forwarded-For Headers](https://gitlab.com/ric_harvey/nginx-php-fpm/blob/master/docs/nginx_configs.md#real-ip--x-forwarded-for-headers)
-- [Scripting and Templating](https://gitlab.com/ric_harvey/nginx-php-fpm/blob/master/docs/scripting_templating.md)
- - [Environment Variables](https://gitlab.com/ric_harvey/nginx-php-fpm/blob/master/docs/scripting_templating.md#using-environment-variables--templating)
-- [Lets Encrypt Support](https://gitlab.com/ric_harvey/nginx-php-fpm/blob/master/docs/lets_encrypt.md)
- - [Setup](https://gitlab.com/ric_harvey/nginx-php-fpm/blob/master/docs/lets_encrypt.md#setup)
- - [Renewal](https://gitlab.com/ric_harvey/nginx-php-fpm/blob/master/docs/lets_encrypt.md#renewal)
-- [PHP Modules](https://gitlab.com/ric_harvey/nginx-php-fpm/blob/master/docs/php_modules.md)
-- [Xdebug](https://gitlab.com/ric_harvey/nginx-php-fpm/blob/master/docs/xdebug.md)
-- [Logging and Errors](https://gitlab.com/ric_harvey/nginx-php-fpm/blob/master/docs/logs.md)
+- [Building from source](https://github.com/psanchezg/nginx-php-fpm/tree/main/docs/building.md)
+- [Versioning](https://github.com/psanchezg/nginx-php-fpm/tree/main/docs/versioning.md)
+- [Config Flags](https://github.com/psanchezg/nginx-php-fpm/tree/main/docs/config_flags.md)
+- [Git Auth](https://github.com/psanchezg/nginx-php-fpm/tree/main/docs/git_auth.md)
+  - [Personal Access token](https://github.com/psanchezg/nginx-php-fpm/tree/main/docs/git_auth.md#personal-access-token)
+  - [SSH Keys](https://github.com/psanchezg/nginx-php-fpm/tree/main/docs/git_auth.md#ssh-keys)
+- [Git Commands](https://github.com/psanchezg/nginx-php-fpm/tree/main/docs/git_commands.md)
+ - [Push](https://github.com/psanchezg/nginx-php-fpm/tree/main/docs/git_commands.md#push-code-to-git)
+ - [Pull](https://github.com/psanchezg/nginx-php-fpm/tree/main/docs/git_commands.md#pull-code-from-git-refresh)
+- [Repository layout / webroot](https://github.com/psanchezg/nginx-php-fpm/tree/main/docs/repo_layout.md)
+ - [webroot](https://github.com/psanchezg/nginx-php-fpm/tree/main/docs/repo_layout.md#src--webroot)
+- [User / Group Identifiers](https://github.com/psanchezg/nginx-php-fpm/tree/main/docs/UID_GID_Mapping.md)
+- [Custom Nginx Config files](https://github.com/psanchezg/nginx-php-fpm/tree/main/docs/nginx_configs.md)
+ - [REAL IP / X-Forwarded-For Headers](https://github.com/psanchezg/nginx-php-fpm/tree/main/docs/nginx_configs.md#real-ip--x-forwarded-for-headers)
+- [Scripting and Templating](https://github.com/psanchezg/nginx-php-fpm/tree/main/docs/scripting_templating.md)
+ - [Environment Variables](https://github.com/psanchezg/nginx-php-fpm/tree/main/docs/scripting_templating.md#using-environment-variables--templating)
+- [Lets Encrypt Support](https://github.com/psanchezg/nginx-php-fpm/tree/main/docs/lets_encrypt.md)
+ - [Setup](https://github.com/psanchezg/nginx-php-fpm/tree/main/docs/lets_encrypt.md#setup)
+ - [Renewal](https://github.com/psanchezg/nginx-php-fpm/tree/main/docs/lets_encrypt.md#renewal)
+- [PHP Modules](https://github.com/psanchezg/nginx-php-fpm/tree/main/docs/php_modules.md)
+- [Xdebug](https://github.com/psanchezg/nginx-php-fpm/tree/main/docs/xdebug.md)
+- [Logging and Errors](https://github.com/psanchezg/nginx-php-fpm/tree/main/docs/logs.md)
 
 ## Guides
-- [Running in Kubernetes](https://gitlab.com/ric_harvey/nginx-php-fpm/blob/master/docs/guides/kubernetes.md)
-- [Using Docker Compose](https://gitlab.com/ric_harvey/nginx-php-fpm/blob/master/docs/guides/docker_compose.md)
+- [Running in Kubernetes](https://github.com/psanchezg/nginx-php-fpm/tree/main/docs/guides/kubernetes.md)
+- [Using Docker Compose](https://github.com/psanchezg/nginx-php-fpm/tree/main/docs/guides/docker_compose.md)
