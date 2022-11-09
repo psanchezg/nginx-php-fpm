@@ -13,6 +13,43 @@ We will use the [semver](http://ricostacruz.com/cheatsheets/semver.html) style n
 
 The latest tag will always follow the master branch in git. the other versions will have releases attached.
 
+#### PHP 8.x
+
+| Docker Tag | PHP Version | Nginx Version | Alpine Version | Container Scripts | Notes |
+|-----|-------|-----|--------|--------|----------|
+| 2.1.4 | 8.1.9 |1.21.6 | 3.16 | 0.3.16 | nginx upgraded to 1.22.0 |
+| 2.1.3 | 8.1.6 |1.22.0 | 3.15 | 0.3.16 | nginx upgraded to 1.22.0 |
+| 2.1.2 | 8.1.6 |1.21.6 | 3.15 | 0.3.16 | mod lua upgraded to 0.10.17 |
+| 2.1.1 | 8.1.5 |1.21.6 | 3.15 | 0.3.16 | mod lua upgraded to 0.10.17 |
+| 2.1.0 | 8.1.5 |1.21.6 | 3.15 | 0.3.16 | remove bloat and shrink image by 2/3 |
+| 2.0.7 | 8.1.5 |1.21.6 | 3.15 | 0.3.16 | upgrade xdebug to 3.1.4 |
+| 2.0.6 | 8.1.5 |1.21.6 | 3.15 | 0.3.16 | upgrade php to 8.1.5 |
+| 2.0.5 | 8.1.4 |1.21.6 | 3.15 | 0.3.16 | upgrade php to 8.1.4 add new flags |
+| 2.0.4 | 8.1.3 |1.21.6 | 3.15 | 0.3.15 | re-enable modules soap, xsl, zip .... |
+| 2.0.3 | 8.1.3 |1.21.6 | 3.15 | 0.3.15 | added disable flag for opcache |
+| 2.0.2 | 8.1.3 |1.21.6 | 3.15 | 0.3.14 | fix gd and opcache extentions |
+| 2.0.1 | 8.1.3 |1.21.6 | 3.15 | 0.3.14 | upgrade to PHP 8.1.3 |
+| 2.0.0 | 8.1.2 |1.21.6 | 3.15 | 0.3.14 | upgrade to PHP 8 |
+
+These tags will be created on GitHub and as tags in docker hub.
+
+#### PHP 7.4
+
+| Docker Tag | PHP Version | Nginx Version | Alpine Version | Container Scripts | Notes |
+|-----|-------|-----|--------|--------|----------|
+| 1.8.0 | 7.4.33 |1.22.1 | 3.16 | 0.4.0 | upgrade php to 7.4.33 |
+
+These tags will be created on psanchezg's GitHub account and same account in docker hub.
+
+### Unmaintained tags:
+
+#### PHP 7.4
+
+| Docker Tag | PHP Version | Nginx Version | Alpine Version | Container Scripts | Notes |
+|-----|-------|-----|--------|--------|----------|
+| 1.9.0 | 7.4.2 |1.16.1 | 3.11 | 0.3.13 | upgrade to PHP 7.4.2 |
+| 1.9.1 | 7.4.5 |1.16.1 | 3.11 | 0.3.13 | upgrade to PHP 7.4.5 |
+
 #### PHP 7.3
 
 | Docker Tag | PHP Version | Nginx Version | Alpine Version | Container Scripts | Notes |
@@ -31,10 +68,10 @@ The latest tag will always follow the master branch in git. the other versions w
 | 1.7.2 | 7.3.6 |1.16.0 | 3.9 | 0.3.12 | Bump to PHP 7.3.6 |
 | 1.7.3 | 7.3.6 |1.16.0 | 3.9 | 0.3.12 | Bump xdebug 2.7.2 |
 | 1.7.4 | 7.3.8 |1.16.0 | 3.9 | 0.3.12 | upgrade php to 7.3.8 |
+| 1.8.0 | 7.3.9 |1.16.1 | 3.10 | 0.3.12 | Alpine upgrade to 3.10, PHP 7.3.9 and nginx 1.16.1 upgrades |
+| 1.8.1 | 7.3.9 |1.16.1 | 3.10 | 0.3.12 | started python upgrade |
+| 1.8.2 | 7.3.9 |1.16.1 | 3.10 | 0.3.13 | geoip2, catchall and xdebug.remote merges |
 
-These tags will be created on GitLab and as tags in docker hub.
-
-### Unmaintained tags:
 #### PHP 7.2
 
 | Docker Tag | PHP Version | Nginx Version | Alpine Version | Container Scripts |
