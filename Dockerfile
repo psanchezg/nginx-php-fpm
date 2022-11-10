@@ -417,13 +417,13 @@ COPY --from=builder --chown=101:101 /usr/sbin/nginx-debug /usr/sbin/nginx-debug
 COPY --from=builder --chown=101:101 /var/cache/nginx /var/cache/nginx
 COPY --from=builder --chown=101:101 /usr/local/bin/luarocks /usr/local/bin/luarocks
 COPY --from=builder --chown=101:101 /usr/local/etc/luarocks /usr/local/etc/luarocks
-COPY --from=builder /usr/local/lib/php/extensions/no-debug-non-zts-20190902 /usr/local/lib/php/extensions/
-COPY --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/
-COPY --from=builder /usr/bin/composer /usr/bin/
-COPY --from=builder /etc/letsencrypt /etc
-COPY --from=builder /usr/lib/python3.10/site-packages/certbot /usr/lib/python3.10/site-packages/
-COPY --from=builder /usr/bin/certbot /usr/bin/
-COPY --from=builder /usr/bin/supervisord /usr/bin/
+COPY --from=builder /usr/local/lib/php/extensions/no-debug-non-zts-20190902 /usr/local/lib/php/extensions/no-debug-non-zts-20190902
+COPY --from=builder /usr/local/etc/php/conf.d /usr/local/etc/php/conf.d
+COPY --from=builder /usr/bin/composer /usr/bin/composer
+COPY --from=builder /etc/letsencrypt /etc/letsencrypt
+COPY --from=builder /usr/lib/python3.10/site-packages/certbot /usr/lib/python3.10/site-packages/certbot
+COPY --from=builder /usr/bin/certbot /usr/bin/certbot
+COPY --from=builder /usr/bin/supervisord /usr/bin/supervisord
 
 RUN apk add --no-cache --virtual .gettext gettext \
   && mv /usr/bin/envsubst /tmp/ \
