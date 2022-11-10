@@ -449,6 +449,7 @@ RUN apk add --no-cache --virtual .gettext gettext \
     postgresql \
     libzip \
     libxslt \
+    libexif \
     gd \
     ca-certificates \
 # forward request and error logs to docker log collector
