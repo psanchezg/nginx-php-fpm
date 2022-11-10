@@ -404,7 +404,6 @@ ARG PKG_DEPS="\
         lua${VER_LUA}-dev \
         openssl-dev \
         pcre-dev \
-        unzip \
         zlib-dev \
 "
 ENV PKG_DEPS=$PKG_DEPS
@@ -423,7 +422,6 @@ COPY --from=builder /usr/bin/composer /usr/bin/composer
 COPY --from=builder /etc/letsencrypt /etc/letsencrypt
 COPY --from=builder /usr/lib/python3.10/site-packages/certbot /usr/lib/python3.10/site-packages/certbot
 COPY --from=builder /usr/bin/certbot /usr/bin/certbot
-COPY --from=builder /usr/bin/supervisord /usr/bin/supervisord
 
 RUN apk add --no-cache --virtual .gettext gettext \
   && mv /usr/bin/envsubst /tmp/ \
@@ -448,6 +446,10 @@ RUN apk add --no-cache --virtual .gettext gettext \
     python3 \
     py3-pip \
     supervisor \
+    postgresql \
+    libzip \
+    libxslt \
+    gd \
     ca-certificates \
 # forward request and error logs to docker log collector
   && mkdir -p /var/log/nginx \
