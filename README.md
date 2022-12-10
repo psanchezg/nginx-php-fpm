@@ -8,7 +8,7 @@ If you have improvements or suggestions please open an issue or pull request on 
 
 ### Versioning
 | Docker Tag | Git Release | Nginx Version | PHP Version | Java Version | Alpine Version |
-|-----|-------|-----|--------|--------|
+|-----|-------|-----|--------|--------|--------|
 | 1.8.0 | Master Branch |1.22.1 | 7.4.33 | - | 3.16 |
 | 1.8.1 | Master Branch |1.22.1 | 7.4.33 | 11 | 3.16 |
 
