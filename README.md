@@ -7,9 +7,10 @@ This is a Dockerfile/image to build a container for nginx and php-fpm, with the 
 If you have improvements or suggestions please open an issue or pull request on the GitHub project page.
 
 ### Versioning
-| Docker Tag | Git Release | Nginx Version | PHP Version | Alpine Version |
+| Docker Tag | Git Release | Nginx Version | PHP Version | Java Version | Alpine Version |
 |-----|-------|-----|--------|--------|
-| 1.8.0 | Master Branch |1.22.1 | 7.4.33 | 3.16 |
+| 1.8.0 | Master Branch |1.22.1 | 7.4.33 | - | 3.16 |
+| 1.8.1 | Master Branch |1.22.1 | 7.4.33 | 11 | 3.16 |
 
 For other tags please see: [versioning](https://github.com/psanchezg/nginx-php-fpm/tree/main/docs/versioning.md)
 
@@ -24,6 +25,10 @@ For other tags please see: [versioning](https://github.com/psanchezg/nginx-php-f
 To pull from docker hub:
 ```
 docker pull psanchezg/nginx-php-fpm:1.8.0
+```
+Same image with java:
+```
+docker pull psanchezg/nginx-php-fpm:1.8.1
 ```
 ### Running
 To simply run the container:

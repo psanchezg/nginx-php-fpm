@@ -452,6 +452,7 @@ RUN apk add --no-cache --virtual .gettext gettext \
     libexif \
     gd \
     ca-certificates \
+    openjdk11 \
 # forward request and error logs to docker log collector
   && mkdir -p /var/log/nginx \
   && ln -sf /dev/stdout /var/log/nginx/access.log \
