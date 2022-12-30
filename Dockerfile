@@ -9,13 +9,13 @@
 
 ARG ARCH=
 ARG DISTRO=alpine
-ARG DISTRO_VER=1.8.0
-ARG VER_PHP=7.4.33
+ARG DISTRO_VER=1.5.8
+ARG VER_PHP=7.2.34
 
 #############################
 # Settings Common Variables #
 #############################
-FROM php:${VER_PHP}-fpm-alpine3.16 AS base
+FROM php:${VER_PHP}-fpm-alpine3.12 AS base
 
 LABEL maintainer="Ric Harvey <ric@ngd.io>"
 LABEL maintainer="Pablo Sánchez <pablo.sanchez@aranova.es>"
@@ -289,9 +289,7 @@ RUN make deps \
 ####################################
 # Build PHP Modules                #
 ####################################
-RUN echo @testing http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories && \
-    echo /etc/apk/respositories && \
-    apk update && apk upgrade && \
+RUN apk update && apk upgrade && \
     apk add --no-cache \
     bash \
     openssh-client \
@@ -328,9 +326,9 @@ RUN echo @testing http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repo
     libjpeg-turbo-dev \
     postgresql-dev && \
     docker-php-ext-configure gd \
-      --enable-gd \
-      --with-freetype \
-      --with-jpeg && \
+      --with-gd \
+      --with-freetype-dir \
+      --with-jpeg-dir && \
     docker-php-ext-install gd && \
      pip install --upgrade pip && \
     #curl iconv session
@@ -361,7 +359,7 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
 FROM base
 
 # http://label-schema.org/rc1/
-LABEL maintainer="Fabio Cicerchia <pablo.sanchez@aranova.es>" \
+LABEL maintainer="Pablo Sánchez <pablo.sanchez@aranova.es>" \
     org.label-schema.build-date="${BUILD_DATE}" \
     org.label-schema.description="Nginx ${VER_NGINX} with Lua support + PHP-FPM ${VER_PHP} based on ${DOCKER_IMAGE_OS} ${DOCKER_IMAGE_TAG}." \
     org.label-schema.docker.cmd="docker run -p 80:80 -d ${DOCKER_IMAGE}:${VER_NGINX}-${DOCKER_IMAGE_OS}${DOCKER_IMAGE_TAG}" \
@@ -416,11 +414,11 @@ COPY --from=builder --chown=101:101 /usr/sbin/nginx-debug /usr/sbin/nginx-debug
 COPY --from=builder --chown=101:101 /var/cache/nginx /var/cache/nginx
 COPY --from=builder --chown=101:101 /usr/local/bin/luarocks /usr/local/bin/luarocks
 COPY --from=builder --chown=101:101 /usr/local/etc/luarocks /usr/local/etc/luarocks
-COPY --from=builder /usr/local/lib/php/extensions/no-debug-non-zts-20190902 /usr/local/lib/php/extensions/no-debug-non-zts-20190902
+COPY --from=builder /usr/local/lib/php/extensions/no-debug-non-zts-20170718 /usr/local/lib/php/extensions/no-debug-non-zts-20170718
 COPY --from=builder /usr/local/etc/php/conf.d /usr/local/etc/php/conf.d
 COPY --from=builder /usr/bin/composer /usr/bin/composer
 COPY --from=builder /etc/letsencrypt /etc/letsencrypt
-COPY --from=builder /usr/lib/python3.10/site-packages/certbot /usr/lib/python3.10/site-packages/certbot
+COPY --from=builder /usr/lib/python3.8/site-packages/certbot /usr/lib/python3.8/site-packages/certbot
 COPY --from=builder /usr/bin/certbot /usr/bin/certbot
 
 RUN apk add --no-cache --virtual .gettext gettext \

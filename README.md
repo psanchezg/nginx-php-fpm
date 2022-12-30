@@ -9,7 +9,7 @@ If you have improvements or suggestions please open an issue or pull request on 
 ### Versioning
 | Docker Tag | Git Release | Nginx Version | PHP Version | Alpine Version |
 |-----|-------|-----|--------|--------|
-| 1.8.0 | Master Branch |1.22.1 | 7.4.33 | 3.16 |
+| 1.5.8 | Master Branch |1.22.1 | 7.2.34 | 3.12 |
 
 For other tags please see: [versioning](https://github.com/psanchezg/nginx-php-fpm/tree/main/docs/versioning.md)
 
@@ -23,16 +23,16 @@ For other tags please see: [versioning](https://github.com/psanchezg/nginx-php-f
 ## Quick Start
 To pull from docker hub:
 ```
-docker pull psanchezg/nginx-php-fpm:1.8.0
+docker pull psanchezg/nginx-php-fpm:1.5.8
 ```
 ### Running
 To simply run the container:
 ```
-sudo docker run -d psanchezg/nginx-php-fpm:1.8.0
+sudo docker run -d psanchezg/nginx-php-fpm:1.5.8
 ```
 To dynamically pull code from git when starting:
 ```
-docker run -d -e 'GIT_EMAIL=email_address' -e 'GIT_NAME=full_name' -e 'GIT_USERNAME=git_username' -e 'GIT_REPO=github.com/project' -e 'GIT_PERSONAL_TOKEN=<long_token_string_here>' psanchezg/nginx-php-fpm:1.8.0
+docker run -d -e 'GIT_EMAIL=email_address' -e 'GIT_NAME=full_name' -e 'GIT_USERNAME=git_username' -e 'GIT_REPO=github.com/project' -e 'GIT_PERSONAL_TOKEN=<long_token_string_here>' psanchezg/nginx-php-fpm:1.5.8
 ```
 
 You can then browse to ```http://<DOCKER_HOST>``` to view the default install files. To find your ```DOCKER_HOST``` use the ```docker inspect``` to get the IP address (normally 172.17.0.2)
