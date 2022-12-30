@@ -14,9 +14,9 @@ If you have improvements or suggestions please open an issue or pull request on 
 For other tags please see: [versioning](https://github.com/psanchezg/nginx-php-fpm/tree/main/docs/versioning.md)
 
 ### Links
-- [https://github.com/richarvey/nginx-php-fpm](https://github.com/richarvey/nginx-php-fpm)
+- [https://github.com/psanchezg/nginx-php-fpm](https://github.com/psanchezg/nginx-php-fpm)
 - [https://gitlab.com/ric_harvey/nginx-php-fpm](https://gitlab.com/ric_harvey/nginx-php-fpm)
-- [https://registry.hub.docker.com/u/richarvey/nginx-php-fpm/](https://registry.hub.docker.com/u/richarvey/nginx-php-fpm/)
+- [https://registry.hub.docker.com/u/psanchezg/nginx-php-fpm/](https://registry.hub.docker.com/u/psanchezg/nginx-php-fpm/)
 - [https://github.com/psanchezg/nginx-php-fpm](https://github.com/psanchezg/nginx-php-fpm)
 - [https://registry.hub.docker.com/u/psanchezg/nginx-php-fpm/](https://registry.hub.docker.com/u/psanchezg/nginx-php-fpm/)
 

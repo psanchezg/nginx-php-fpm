@@ -86,6 +86,7 @@ These tags will be created on psanchezg's GitHub account and same account in doc
 | 1.5.5 | 7.2.10 |1.14.0 | 3.7 | 0.3.8 |
 | 1.5.6 | 7.2.9 |1.14.0 | 3.7 | 0.3.8 |
 | 1.5.7 | 7.2.10 |1.14.0 | 3.7 | 0.3.8 |
+| 1.5.8 | 7.2.34 |1.22.1 | 3.12 | ? |
 
 #### PHP 7.1
 
