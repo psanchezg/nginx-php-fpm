@@ -9,13 +9,16 @@
 
 ARG ARCH=
 ARG DISTRO=alpine
-ARG DISTRO_VER=1.8.0
-ARG VER_PHP=7.4.33
+ARG DISTRO_VERSION=1.8.2
+ARG PHP_VERSION=7.4
+ARG APCU_VERSION=5.1.22
+ARG XDEBUG_VERSION=3.1.6
+ARG VER_NGINX=1.23.2
 
 #############################
 # Settings Common Variables #
 #############################
-FROM php:${VER_PHP}-fpm-alpine3.16 AS base
+FROM php:${PHP_VERSION}-fpm-alpine3.16 AS base
 
 LABEL maintainer="Ric Harvey <ric@ngd.io>"
 LABEL maintainer="Pablo Sánchez <pablo.sanchez@aranova.es>"
@@ -26,7 +29,7 @@ ENV php_vars /usr/local/etc/php/conf.d/docker-vars.ini
 
 ENV DOCKER_IMAGE=psanchezg/nginx-php-fpm
 ENV DOCKER_IMAGE_OS=${DISTRO}
-ENV DOCKER_IMAGE_TAG=${DISTRO_VER}
+ENV DOCKER_IMAGE_TAG=${DISTRO_VERSION}
 
 ARG BUILD_DATE
 ENV BUILD_DATE=$BUILD_DATE
@@ -154,7 +157,6 @@ ARG VER_OPENRESTY_STREAMLUA=9ce0848cff7c3c5eb0a7d5adfe2de22ea98e1e63
 ENV VER_OPENRESTY_STREAMLUA=$VER_OPENRESTY_STREAMLUA
 
 # https://github.com/nginx/nginx/releases
-ARG VER_NGINX=1.23.2
 ENV VER_NGINX=$VER_NGINX
 # References:
 #  - https://developers.redhat.com/blog/2018/03/21/compiler-and-linker-flags-gcc
@@ -337,7 +339,10 @@ RUN echo @testing http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repo
     #docker-php-ext-install pdo_mysql pdo_sqlite mysqli mcrypt gd exif intl xsl json soap dom zip opcache && \
     # docker-php-ext-install iconv pdo_mysql pdo_sqlite pgsql pdo_pgsql mysqli gd exif intl xsl json soap dom zip opcache && \
     docker-php-ext-install pdo_mysql mysqli pdo_sqlite pgsql pdo_pgsql exif intl xsl soap zip && \
-    pecl install xdebug-3.1.4 && \
+    pecl install xdebug-${XDEBUG_VERSION} && \
+    pecl install apcu-${APCU_VERSION} && \
+	  pecl clear-cache; \
+    docker-php-ext-enable apcu opcache \
     docker-php-source delete && \
     mkdir -p /etc/nginx && \
     mkdir -p /var/www/app && \
@@ -361,9 +366,9 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
 FROM base
 
 # http://label-schema.org/rc1/
-LABEL maintainer="Fabio Cicerchia <pablo.sanchez@aranova.es>" \
+LABEL maintainer="Pablo Sánchez <pablo.sanchez@aranova.es>" \
     org.label-schema.build-date="${BUILD_DATE}" \
-    org.label-schema.description="Nginx ${VER_NGINX} with Lua support + PHP-FPM ${VER_PHP} based on ${DOCKER_IMAGE_OS} ${DOCKER_IMAGE_TAG}." \
+    org.label-schema.description="Nginx ${VER_NGINX} with Lua support + PHP-FPM ${PHP_VERSION} based on ${DOCKER_IMAGE_OS} ${DOCKER_IMAGE_TAG}." \
     org.label-schema.docker.cmd="docker run -p 80:80 -d ${DOCKER_IMAGE}:${VER_NGINX}-${DOCKER_IMAGE_OS}${DOCKER_IMAGE_TAG}" \
     org.label-schema.name="${DOCKER_IMAGE}" \
     org.label-schema.schema-version="1.0" \
@@ -482,7 +487,7 @@ RUN echo "cgi.fix_pathinfo=0" > ${php_vars} &&\
     echo "upload_max_filesize = 100M"  >> ${php_vars} &&\
     echo "post_max_size = 100M"  >> ${php_vars} &&\
     echo "variables_order = \"EGPCS\""  >> ${php_vars} && \
-    echo "memory_limit = 128M"  >> ${php_vars} && \
+    echo "memory_limit = 1024M"  >> ${php_vars} && \
     sed -i \
         -e "s/;catch_workers_output\s*=\s*yes/catch_workers_output = yes/g" \
         -e "s/pm.max_children = 5/pm.max_children = 4/g" \
