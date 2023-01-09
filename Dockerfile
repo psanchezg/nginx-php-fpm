@@ -160,6 +160,9 @@ ENV VER_OPENRESTY_STREAMLUA=$VER_OPENRESTY_STREAMLUA
 ARG VER_NGINX=1.23.2
 ENV VER_NGINX=$VER_NGINX
 
+ARG XDEBUG_VERSION=3.1.6
+ENV XDEBUG_VERSION=$XDEBUG_VERSION
+
 # References:
 #  - https://developers.redhat.com/blog/2018/03/21/compiler-and-linker-flags-gcc
 #  - https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html
