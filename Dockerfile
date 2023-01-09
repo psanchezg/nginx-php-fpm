@@ -157,7 +157,9 @@ ARG VER_OPENRESTY_STREAMLUA=9ce0848cff7c3c5eb0a7d5adfe2de22ea98e1e63
 ENV VER_OPENRESTY_STREAMLUA=$VER_OPENRESTY_STREAMLUA
 
 # https://github.com/nginx/nginx/releases
+ARG VER_NGINX=1.23.2
 ENV VER_NGINX=$VER_NGINX
+
 # References:
 #  - https://developers.redhat.com/blog/2018/03/21/compiler-and-linker-flags-gcc
 #  - https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html
@@ -270,6 +272,7 @@ RUN set -eux \
     && apk update \
     && apk add --no-cache \
         alpine-sdk \
+        grpc \
         bash \
         findutils \
         gd-dev \
@@ -341,8 +344,9 @@ RUN echo @testing http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repo
     docker-php-ext-install pdo_mysql mysqli pdo_sqlite pgsql pdo_pgsql exif intl xsl soap zip && \
     pecl install xdebug-${XDEBUG_VERSION} && \
     pecl install apcu-${APCU_VERSION} && \
+    pecl install grpc && \
 	  pecl clear-cache; \
-    docker-php-ext-enable apcu opcache \
+    docker-php-ext-enable apcu opcache grpc \
     docker-php-source delete && \
     mkdir -p /etc/nginx && \
     mkdir -p /var/www/app && \
@@ -428,7 +432,7 @@ COPY --from=builder /etc/letsencrypt /etc/letsencrypt
 COPY --from=builder /usr/lib/python3.10/site-packages/certbot /usr/lib/python3.10/site-packages/certbot
 COPY --from=builder /usr/bin/certbot /usr/bin/certbot
 
-RUN apk add --no-cache --virtual .gettext gettext \
+RUN apk add --no-cache --virtual .gettext gettext grpc \
   && mv /usr/bin/envsubst /tmp/ \
   \
   && runDeps="$( \
@@ -522,6 +526,8 @@ RUN chmod 755 /usr/bin/pull && chmod 755 /usr/bin/push && chmod 755 /usr/bin/let
 # copy in code
 COPY --chown=101:101 src/ /var/www/html/
 COPY --chown=101:101 errors/ /var/www/errors
+
+RUN php -r "echo extension_loaded('grpc') ? 'yes' : 'no';"
 
 EXPOSE 443 80
 
