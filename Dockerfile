@@ -163,6 +163,9 @@ ENV VER_NGINX=$VER_NGINX
 ARG XDEBUG_VERSION=3.1.6
 ENV XDEBUG_VERSION=$XDEBUG_VERSION
 
+ARG APCU_VERSION=5.1.22
+ENV APCU_VERSION=$APCU_VERSION
+
 # References:
 #  - https://developers.redhat.com/blog/2018/03/21/compiler-and-linker-flags-gcc
 #  - https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html
@@ -349,8 +352,9 @@ RUN echo @testing http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repo
     pecl install apcu-${APCU_VERSION} && \
     pecl install grpc && \
 	  pecl clear-cache; \
-    docker-php-ext-enable apcu opcache grpc \
-    docker-php-source delete && \
+    docker-php-ext-enable apcu opcache grpc
+
+RUN docker-php-source delete && \
     mkdir -p /etc/nginx && \
     mkdir -p /var/www/app && \
     mkdir -p /run/nginx && \
