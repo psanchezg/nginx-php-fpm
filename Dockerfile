@@ -7,22 +7,29 @@
 # Copyright (c) 2022 Fabio Cicerchia. https://fabiocicerchia.it. MIT License
 # Repo: https://github.com/fabiocicerchia/nginx-lua
 
-ARG ARCH=
+ARG ARCH=AMD64
+ARG TARGETOS=linux
 ARG DISTRO=alpine
-ARG DISTRO_VER=1.5.8
-ARG VER_PHP=7.2.34
+ARG DISTRO_VER=1.4.0
+ARG VER_PHP=5.6.40
+
 
 #############################
 # Settings Common Variables #
 #############################
-FROM php:${VER_PHP}-fpm-alpine3.12 AS base
+FROM php:${VER_PHP}-fpm-alpine3.8 AS base
+ENV ARCH=$ARCH
+ENV TARGETOS=$TARGETOS
+ENV DISTRO=$DISTRO
+ENV DISTRO_VER=$DISTRO_VER
+ENV VER_PHP=$VER_PHP
 
 LABEL maintainer="Ric Harvey <ric@ngd.io>"
 LABEL maintainer="Pablo Sánchez <pablo.sanchez@aranova.es>"
 
-ENV php_conf /usr/local/etc/php-fpm.conf
-ENV fpm_conf /usr/local/etc/php-fpm.d/www.conf
-ENV php_vars /usr/local/etc/php/conf.d/docker-vars.ini
+ENV php_conf=/usr/local/etc/php-fpm.conf
+ENV fpm_conf=/usr/local/etc/php-fpm.d/www.conf
+ENV php_vars=/usr/local/etc/php/conf.d/docker-vars.ini
 
 ENV DOCKER_IMAGE=psanchezg/nginx-php-fpm
 ENV DOCKER_IMAGE_OS=${DISTRO}
@@ -154,7 +161,7 @@ ARG VER_OPENRESTY_STREAMLUA=9ce0848cff7c3c5eb0a7d5adfe2de22ea98e1e63
 ENV VER_OPENRESTY_STREAMLUA=$VER_OPENRESTY_STREAMLUA
 
 # https://github.com/nginx/nginx/releases
-ARG VER_NGINX=1.23.2
+ARG VER_NGINX=1.21.6
 ENV VER_NGINX=$VER_NGINX
 # References:
 #  - https://developers.redhat.com/blog/2018/03/21/compiler-and-linker-flags-gcc
@@ -262,6 +269,9 @@ ENV BUILD_DEPS=
 ####################################
 FROM base AS builder
 
+ARG ARCH=AMD64
+ENV ARCH=$ARCH
+
 # hadolint ignore=SC2086
 RUN set -eux \
     && eval BUILD_DEPS="\$$(echo BUILD_DEPS_${ARCH} | tr '[:lower:]' '[:upper:]')" \
@@ -349,14 +359,18 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
     pip3 install -U certbot && \
     mkdir -p /etc/letsencrypt/webrootauth && \
     apk del gcc musl-dev linux-headers libffi-dev augeas-dev python3-dev make autoconf
-#    apk del .sys-deps
-#    ln -s /usr/bin/php7 /usr/bin/php
 
 
 ##########################################
 # Combine everything with minimal layers #
 ##########################################
 FROM base
+
+ARG ARCH=AMD64
+ARG TARGETOS=linux
+ARG DISTRO=alpine
+ARG DISTRO_VER=1.4.0
+ARG VER_PHP=5.6.40
 
 # http://label-schema.org/rc1/
 LABEL maintainer="Pablo Sánchez <pablo.sanchez@aranova.es>" \
