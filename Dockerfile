@@ -276,6 +276,7 @@ ENV ARCH=$ARCH
 RUN set -eux \
     && eval BUILD_DEPS="\$$(echo BUILD_DEPS_${ARCH} | tr '[:lower:]' '[:upper:]')" \
     && apk update \
+    && apk del libressl-dev \
     && apk add --no-cache \
         alpine-sdk \
         bash \
@@ -286,7 +287,6 @@ RUN set -eux \
         libxslt-dev \
         pcre-dev \
         openssl-dev \
-        libressl-dev \
         linux-headers \
         perl-dev
 
@@ -301,51 +301,48 @@ RUN make deps \
 ####################################
 RUN apk update && apk upgrade && \
     apk add --no-cache \
-    bash \
-    openssh-client \
-    wget \
-    supervisor \
-    curl \
-    libcurl \
-    libpq \
-    git \
-    python3 \
-    py3-pip \
-    ca-certificates \
-    dialog \
-    autoconf \
-    make \
-    openssl-dev \
-    libressl-dev \
-    libzip-dev \
-    bzip2-dev \
-    icu-dev \
-    gcc && \
-    apk add --no-cache --virtual .sys-deps \
-    musl-dev \
-    linux-headers \
-    augeas-dev \
-    libmcrypt-dev \
-    libpng-dev \
-    libxslt-dev \
-    python3-dev \
-    libffi-dev \
-    freetype-dev \
-    sqlite-dev \
-    imap-dev \
-    libjpeg-turbo-dev \
-    postgresql-dev && \
-    docker-php-ext-configure gd \
-      --with-gd \
-      --with-freetype-dir \
-      --with-jpeg-dir && \
-    docker-php-ext-install gd && \
-     pip install --upgrade pip && \
-    #curl iconv session
-    #docker-php-ext-install pdo_mysql pdo_sqlite mysqli mcrypt gd exif intl xsl json soap dom zip opcache && \
-    # docker-php-ext-install iconv pdo_mysql pdo_sqlite pgsql pdo_pgsql mysqli gd exif intl xsl json soap dom zip opcache && \
-    docker-php-ext-install pdo_mysql mysqli pdo_sqlite pgsql pdo_pgsql exif intl xsl soap zip && \
-    pecl install xdebug-3.1.4 && \
+      bash \
+      openssh-client \
+      wget \
+      supervisor \
+      curl \
+      libcurl \
+      libpq \
+      git \
+      python3 \
+      py3-pip \
+      ca-certificates \
+      dialog \
+      autoconf \
+      make \
+      openssl-dev \
+      libzip-dev \
+      bzip2-dev \
+      icu-dev \
+      gcc && \
+      apk add --no-cache --virtual .sys-deps \
+      musl-dev \
+      linux-headers \
+      augeas-dev \
+      libmcrypt-dev \
+      libpng-dev \
+      libxslt-dev \
+      python3-dev \
+      libffi-dev \
+      freetype-dev \
+      sqlite-dev \
+      imap-dev \
+      libjpeg-turbo-dev \
+      py-pip \
+      libxml2-dev \
+      libxpm-dev \
+      && pip install --upgrade pip
+
+RUN docker-php-source extract \
+    && docker-php-ext-configure gd --with-gd --with-jpeg-dir --with-png-dir --with-zlib-dir --with-xpm-dir --with-freetype-dir --enable-gd-native-ttf \
+    && docker-php-ext-install -j$(nproc) gd pdo_mysql mysqli pdo_sqlite exif intl xsl soap zip && \
+    pecl channel-update pecl.php.net && \
+    pecl install xdebug-2.5.5 && \
     docker-php-source delete && \
     mkdir -p /etc/nginx && \
     mkdir -p /var/www/app && \
@@ -428,11 +425,11 @@ COPY --from=builder --chown=101:101 /usr/sbin/nginx-debug /usr/sbin/nginx-debug
 COPY --from=builder --chown=101:101 /var/cache/nginx /var/cache/nginx
 COPY --from=builder --chown=101:101 /usr/local/bin/luarocks /usr/local/bin/luarocks
 COPY --from=builder --chown=101:101 /usr/local/etc/luarocks /usr/local/etc/luarocks
-COPY --from=builder /usr/local/lib/php/extensions/no-debug-non-zts-20170718 /usr/local/lib/php/extensions/no-debug-non-zts-20170718
+COPY --from=builder /usr/local/lib/php/extensions/no-debug-non-zts-20131226 /usr/local/lib/php/extensions/no-debug-non-zts-20131226
 COPY --from=builder /usr/local/etc/php/conf.d /usr/local/etc/php/conf.d
 COPY --from=builder /usr/bin/composer /usr/bin/composer
 COPY --from=builder /etc/letsencrypt /etc/letsencrypt
-COPY --from=builder /usr/lib/python3.8/site-packages/certbot /usr/lib/python3.8/site-packages/certbot
+COPY --from=builder /usr/lib/python3.6/site-packages/certbot /usr/lib/python3.6/site-packages/certbot
 COPY --from=builder /usr/bin/certbot /usr/bin/certbot
 
 RUN apk add --no-cache --virtual .gettext gettext \
@@ -458,7 +455,6 @@ RUN apk add --no-cache --virtual .gettext gettext \
     python3 \
     py3-pip \
     supervisor \
-    postgresql \
     libzip \
     libxslt \
     libexif \
