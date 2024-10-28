@@ -21,6 +21,12 @@ For other tags please see: [versioning](https://github.com/psanchezg/nginx-php-f
 - [https://registry.hub.docker.com/u/psanchezg/nginx-php-fpm/](https://registry.hub.docker.com/u/psanchezg/nginx-php-fpm/)
 
 ## Quick Start
+
+To build image:
+```
+DOCKER_DEFAULT_PLATFORM=linux/amd64 docker build -t psanchezg/nginx-php-fpm:1.5.8 .
+```
+
 To pull from docker hub:
 ```
 docker pull psanchezg/nginx-php-fpm:1.5.8

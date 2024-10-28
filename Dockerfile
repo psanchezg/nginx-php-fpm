@@ -325,6 +325,7 @@ RUN apk update && apk upgrade && \
     imap-dev \
     libjpeg-turbo-dev \
     postgresql-dev && \
+    libmcrypt && \
     docker-php-ext-configure gd \
       --with-gd \
       --with-freetype-dir \
@@ -337,6 +338,8 @@ RUN apk update && apk upgrade && \
     docker-php-ext-install pdo_mysql mysqli pdo_sqlite pgsql pdo_pgsql exif intl xsl soap zip && \
     pecl install xdebug-3.1.4 && \
     docker-php-source delete && \
+    pecl install mcrypt-1.0.4 && \
+    docker-php-ext-enable mcrypt && \
     mkdir -p /etc/nginx && \
     mkdir -p /var/www/app && \
     mkdir -p /run/nginx && \
@@ -449,6 +452,7 @@ RUN apk add --no-cache --virtual .gettext gettext \
     libxslt \
     libexif \
     gd \
+    libmcrypt \
     ca-certificates \
 # forward request and error logs to docker log collector
   && mkdir -p /var/log/nginx \
