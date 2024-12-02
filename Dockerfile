@@ -325,7 +325,6 @@ RUN apk update && apk upgrade && \
     imap-dev \
     libjpeg-turbo-dev \
     postgresql-dev && \
-    libmcrypt && \
     docker-php-ext-configure gd \
       --with-gd \
       --with-freetype-dir \
@@ -345,15 +344,16 @@ RUN apk update && apk upgrade && \
     mkdir -p /run/nginx && \
     mkdir -p /var/log/supervisor
   
+ENV CRYPTOGRAPHY_DONT_BUILD_RUST=1
+
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
     php composer-setup.php --install-dir=/usr/bin --filename=composer && \
     rm composer-setup.php && \
     pip3 install -U pip && \
-    pip3 install -U certbot && \
+    # apk add rust cargo && \
+    # pip3 install -U certbot && \
     mkdir -p /etc/letsencrypt/webrootauth && \
     apk del gcc musl-dev linux-headers libffi-dev augeas-dev python3-dev make autoconf
-#    apk del .sys-deps
-#    ln -s /usr/bin/php7 /usr/bin/php
 
 
 ##########################################
@@ -421,8 +421,8 @@ COPY --from=builder /usr/local/lib/php/extensions/no-debug-non-zts-20170718 /usr
 COPY --from=builder /usr/local/etc/php/conf.d /usr/local/etc/php/conf.d
 COPY --from=builder /usr/bin/composer /usr/bin/composer
 COPY --from=builder /etc/letsencrypt /etc/letsencrypt
-COPY --from=builder /usr/lib/python3.8/site-packages/certbot /usr/lib/python3.8/site-packages/certbot
-COPY --from=builder /usr/bin/certbot /usr/bin/certbot
+# COPY --from=builder /usr/lib/python3.8/site-packages/certbot /usr/lib/python3.8/site-packages/certbot
+# COPY --from=builder /usr/bin/certbot /usr/bin/certbot
 
 RUN apk add --no-cache --virtual .gettext gettext \
   && mv /usr/bin/envsubst /tmp/ \
@@ -452,7 +452,7 @@ RUN apk add --no-cache --virtual .gettext gettext \
     libxslt \
     libexif \
     gd \
-    libmcrypt \
+    libmcrypt-dev \
     ca-certificates \
 # forward request and error logs to docker log collector
   && mkdir -p /var/log/nginx \

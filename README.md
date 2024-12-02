@@ -34,7 +34,7 @@ docker pull psanchezg/nginx-php-fpm:1.5.8
 ### Running
 To simply run the container:
 ```
-sudo docker run -d psanchezg/nginx-php-fpm:1.5.8
+docker run -d psanchezg/nginx-php-fpm:1.5.8
 ```
 To dynamically pull code from git when starting:
 ```
