@@ -7,9 +7,10 @@ This is a Dockerfile/image to build a container for nginx and php-fpm, with the 
 If you have improvements or suggestions please open an issue or pull request on the GitHub project page.
 
 ### Versioning
-| Docker Tag | Git Release | Nginx Version | PHP Version | Alpine Version |
+| Docker Tag | Git Release | Nginx Version | PHP Version | LUA Version | Alpine Version |
 |-----|-------|-----|--------|--------|
-| 1.5.8 | Master Branch |1.22.1 | 7.2.34 | 3.12 |
+| 1.5.8 | 1.5.8 | 1.22.1 | 7.2.34 | 5.4 | 3.12 |
+| 1.5.9 | 1.5.8 | 1.26.2 | 7.2.34 | 5.4.7 | 3.12 |
 
 For other tags please see: [versioning](https://github.com/psanchezg/nginx-php-fpm/tree/main/docs/versioning.md)
 
@@ -24,21 +25,21 @@ For other tags please see: [versioning](https://github.com/psanchezg/nginx-php-f
 
 To build image:
 ```
-DOCKER_DEFAULT_PLATFORM=linux/amd64 docker build -t psanchezg/nginx-php-fpm:1.5.8 .
+DOCKER_DEFAULT_PLATFORM=linux/amd64 docker build -t psanchezg/nginx-php-fpm:1.5.9 .
 ```
 
 To pull from docker hub:
 ```
-docker pull psanchezg/nginx-php-fpm:1.5.8
+docker pull psanchezg/nginx-php-fpm:1.5.9
 ```
 ### Running
 To simply run the container:
 ```
-docker run -d psanchezg/nginx-php-fpm:1.5.8
+docker run -d psanchezg/nginx-php-fpm:1.5.9
 ```
 To dynamically pull code from git when starting:
 ```
-docker run -d -e 'GIT_EMAIL=email_address' -e 'GIT_NAME=full_name' -e 'GIT_USERNAME=git_username' -e 'GIT_REPO=github.com/project' -e 'GIT_PERSONAL_TOKEN=<long_token_string_here>' psanchezg/nginx-php-fpm:1.5.8
+docker run -d -e 'GIT_EMAIL=email_address' -e 'GIT_NAME=full_name' -e 'GIT_USERNAME=git_username' -e 'GIT_REPO=github.com/project' -e 'GIT_PERSONAL_TOKEN=<long_token_string_here>' psanchezg/nginx-php-fpm:1.5.9
 ```
 
 You can then browse to ```http://<DOCKER_HOST>``` to view the default install files. To find your ```DOCKER_HOST``` use the ```docker inspect``` to get the IP address (normally 172.17.0.2)

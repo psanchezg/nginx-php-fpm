@@ -9,20 +9,20 @@
 
 ARG ARCH=
 ARG DISTRO=alpine
-ARG DISTRO_VER=1.5.8
+ARG DISTRO_VER=1.5.9
 ARG VER_PHP=7.2.34
 
 #############################
 # Settings Common Variables #
 #############################
-FROM php:${VER_PHP}-fpm-alpine3.12 AS base
+FROM php:${VER_PHP}-fpm-alpine AS base
 
 LABEL maintainer="Ric Harvey <ric@ngd.io>"
 LABEL maintainer="Pablo Sánchez <pablo.sanchez@aranova.es>"
 
-ENV php_conf /usr/local/etc/php-fpm.conf
-ENV fpm_conf /usr/local/etc/php-fpm.d/www.conf
-ENV php_vars /usr/local/etc/php/conf.d/docker-vars.ini
+ENV php_conf=/usr/local/etc/php-fpm.conf
+ENV fpm_conf=/usr/local/etc/php-fpm.d/www.conf
+ENV php_vars=/usr/local/etc/php/conf.d/docker-vars.ini
 
 ENV DOCKER_IMAGE=psanchezg/nginx-php-fpm
 ENV DOCKER_IMAGE_OS=${DISTRO}
@@ -34,7 +34,7 @@ ARG VCS_REF
 ENV VCS_REF=$VCS_REF
 
 # lua
-ARG VER_LUA=5.4
+ARG VER_LUA=5.4.7
 ENV VER_LUA=$VER_LUA
 
 # ngx_devel_kit
@@ -56,40 +56,35 @@ ARG LD_LIBRARY_PATH=/usr/local/lib/:$LD_LIBRARY_PATH
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH
 
 # lua-nginx-module
-# https://github.com/openresty/lua-nginx-module/commits/master
-# Production ready.
-# TODO: Restore to 0.10.xx as the v0.10.21 has a bug fixed in commit b6d167cf1a93c0c885c28db5a439f2404874cb26
-ARG VER_LUA_NGINX_MODULE=a318d250f547c854ea2b091d0e06372ac0c00fd5
+# https://github.com/openresty/lua-nginx-module/tags
+ARG VER_LUA_NGINX_MODULE=0.10.27
 ENV VER_LUA_NGINX_MODULE=$VER_LUA_NGINX_MODULE
 
 # lua-resty-core
 # https://github.com/openresty/lua-resty-core/tags
-# This library is production ready.
-# TODO: Restore to 0.1.xx as the bug fixed in commit 79f520183bb5b1a278d8a8be3f53659737232253 is not on master
-ARG VER_LUA_RESTY_CORE=0346fa2c8aeb39a11eba577fbf57984fb8e110f3
+ARG VER_LUA_RESTY_CORE=0.1.30
 ENV VER_LUA_RESTY_CORE=$VER_LUA_RESTY_CORE
 ARG LUA_LIB_DIR=/usr/local/share/lua/5.4
 ENV LUA_LIB_DIR=$LUA_LIB_DIR
 
 # lua-resty-lrucache
 # https://github.com/openresty/lua-resty-lrucache/tags
-# This library is considered production ready.
-ARG VER_LUA_RESTY_LRUCACHE=0.13
+ARG VER_LUA_RESTY_LRUCACHE=0.15
 ENV VER_LUA_RESTY_LRUCACHE=$VER_LUA_RESTY_LRUCACHE
 
 # headers-more-nginx-module
 # https://github.com/openresty/headers-more-nginx-module/tags
-ARG VER_OPENRESTY_HEADERS=0.34
+ARG VER_OPENRESTY_HEADERS=0.37
 ENV VER_OPENRESTY_HEADERS=$VER_OPENRESTY_HEADERS
 
 # lua-resty-cookie
-# https://github.com/cloudflare/lua-resty-cookie/commits/master
-ARG VER_CLOUDFLARE_COOKIE=99be1005e38ce19ace54515272a2be1b9fdc5da2
+# https://github.com/cloudflare/lua-resty-cookie/tags
+ARG VER_CLOUDFLARE_COOKIE=0.1.0
 ENV VER_CLOUDFLARE_COOKIE=$VER_CLOUDFLARE_COOKIE
 
 # lua-resty-dns
 # https://github.com/openresty/lua-resty-dns/tags
-ARG VER_OPENRESTY_DNS=0.22
+ARG VER_OPENRESTY_DNS=0.23
 ENV VER_OPENRESTY_DNS=$VER_OPENRESTY_DNS
 
 # lua-resty-memcached
@@ -104,7 +99,7 @@ ENV VER_OPENRESTY_MYSQL=$VER_OPENRESTY_MYSQL
 
 # lua-resty-redis
 # https://github.com/openresty/lua-resty-redis/tags
-ARG VER_OPENRESTY_REDIS=0.30
+ARG VER_OPENRESTY_REDIS=0.31
 ENV VER_OPENRESTY_REDIS=$VER_OPENRESTY_REDIS
 
 # lua-resty-shell
@@ -114,27 +109,27 @@ ENV VER_OPENRESTY_SHELL=$VER_OPENRESTY_SHELL
 
 # lua-resty-signal
 # https://github.com/openresty/lua-resty-signal/tags
-ARG VER_OPENRESTY_SIGNAL=0.03
+ARG VER_OPENRESTY_SIGNAL=0.04
 ENV VER_OPENRESTY_SIGNAL=$VER_OPENRESTY_SIGNAL
 
 # lua-tablepool
 # https://github.com/openresty/lua-tablepool/tags
-ARG VER_OPENRESTY_TABLEPOOL=0.02
+ARG VER_OPENRESTY_TABLEPOOL=0.03
 ENV VER_OPENRESTY_TABLEPOOL=$VER_OPENRESTY_TABLEPOOL
 
 # lua-resty-upstream-healthcheck
 # https://github.com/openresty/lua-resty-upstream-healthcheck/tags
-ARG VER_OPENRESTY_HEALTHCHECK=0.06
+ARG VER_OPENRESTY_HEALTHCHECK=0.08
 ENV VER_OPENRESTY_HEALTHCHECK=$VER_OPENRESTY_HEALTHCHECK
 
 # lua-resty-websocket
 # https://github.com/openresty/lua-resty-websocket/tags
-ARG VER_OPENRESTY_WEBSOCKET=0.09
+ARG VER_OPENRESTY_WEBSOCKET=0.12
 ENV VER_OPENRESTY_WEBSOCKET=$VER_OPENRESTY_WEBSOCKET
 
 # lua-rocks
 # https://luarocks.github.io/luarocks/releases/
-ARG VER_LUAROCKS=3.9.1
+ARG VER_LUAROCKS=3.11.1
 ENV VER_LUAROCKS=$VER_LUAROCKS
 
 # lua-upstream-nginx-module
@@ -144,17 +139,16 @@ ENV VER_LUA_UPSTREAM=$VER_LUA_UPSTREAM
 
 # nginx-lua-prometheus
 # https://github.com/knyar/nginx-lua-prometheus/tags
-ARG VER_PROMETHEUS=0.20220527
+ARG VER_PROMETHEUS=0.20240525
 ENV VER_PROMETHEUS=$VER_PROMETHEUS
 
 # stream-lua-nginx-module
-# https://github.com/openresty/stream-lua-nginx-module/commits/master
-# TODO: Restore to 0.0.xx as the v0.0.11 has a bug fixed in commit 9ce0848cff7c3c5eb0a7d5adfe2de22ea98e1e63
-ARG VER_OPENRESTY_STREAMLUA=9ce0848cff7c3c5eb0a7d5adfe2de22ea98e1e63
+# https://github.com/openresty/stream-lua-nginx-module/tags
+ARG VER_OPENRESTY_STREAMLUA=0.0.15
 ENV VER_OPENRESTY_STREAMLUA=$VER_OPENRESTY_STREAMLUA
 
-# https://github.com/nginx/nginx/releases
-ARG VER_NGINX=1.23.2
+# https://github.com/nginx/nginx/tags
+ARG VER_NGINX=1.26.2
 ENV VER_NGINX=$VER_NGINX
 # References:
 #  - https://developers.redhat.com/blog/2018/03/21/compiler-and-linker-flags-gcc
@@ -278,7 +272,8 @@ RUN set -eux \
         openssl-dev \
         libressl-dev \
         linux-headers \
-        perl-dev
+        perl-dev \
+        tcl-dev
 
 COPY tpl/Makefile Makefile
 
@@ -286,6 +281,17 @@ RUN make deps \
     && make core \
     && make luarocks
 
+# Download latest release (sqlite3)
+RUN wget -O sqlite.tar.gz https://www.sqlite.org/src/tarball/sqlite.tar.gz?r=release \
+  && tar xvfz sqlite.tar.gz
+
+# Configure and make SQLite3 binary
+RUN ./sqlite/configure --prefix=/usr \
+    && make \
+    && make install \
+    # Smoke test
+    && sqlite3 --version
+    
 ####################################
 # Build PHP Modules                #
 ####################################
@@ -330,14 +336,14 @@ RUN apk update && apk upgrade && \
       --with-freetype-dir \
       --with-jpeg-dir && \
     docker-php-ext-install gd && \
-     pip install --upgrade pip && \
+    pip install --upgrade pip && \
     #curl iconv session
     #docker-php-ext-install pdo_mysql pdo_sqlite mysqli mcrypt gd exif intl xsl json soap dom zip opcache && \
     # docker-php-ext-install iconv pdo_mysql pdo_sqlite pgsql pdo_pgsql mysqli gd exif intl xsl json soap dom zip opcache && \
     docker-php-ext-install pdo_mysql mysqli pdo_sqlite pgsql pdo_pgsql exif intl xsl soap zip && \
-    pecl install xdebug-3.1.4 && \
+    pecl install xdebug-3.1.5 && \
     docker-php-source delete && \
-    pecl install mcrypt-1.0.4 && \
+    pecl install mcrypt-1.0.7 && \
     docker-php-ext-enable mcrypt && \
     mkdir -p /etc/nginx && \
     mkdir -p /var/www/app && \
@@ -409,6 +415,7 @@ ARG PKG_DEPS="\
 "
 ENV PKG_DEPS=$PKG_DEPS
 
+COPY --from=builder --chown=101:101 /usr/bin/sqlite3 /usr/bin/sqlite3
 COPY --from=builder --chown=101:101 /etc/nginx /etc/nginx
 COPY --from=builder --chown=101:101 /usr/local/lib /usr/local/lib
 COPY --from=builder --chown=101:101 /usr/local/share/lua /usr/local/share/lua
