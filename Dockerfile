@@ -284,7 +284,7 @@ RUN make deps \
 # Download latest release (sqlite3)
 RUN wget -O sqlite.tar.gz https://www.sqlite.org/src/tarball/sqlite.tar.gz?r=release \
     && tar xvfz sqlite.tar.gz \
-    && ./sqlite/configure --prefix=/usr/local \
+    && ./sqlite/configure --prefix=/usr \
     && make \
     && make install \
     # Smoke test
@@ -329,10 +329,7 @@ RUN apk update && apk upgrade && \
       libjpeg-turbo-dev \
       postgresql-dev && \
     pip install --upgrade pip && \
-    docker-php-ext-configure gd \
-      --with-gd \
-      --with-freetype-dir \
-      --with-jpeg-dir && \
+    docker-php-ext-configure gd && \
     NPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) && \
     docker-php-ext-install -j${NPROC} gd pdo_mysql mysqli pdo_sqlite pgsql pdo_pgsql exif intl xsl soap zip && \
     pecl install xdebug-3.1.5 && \
@@ -425,7 +422,8 @@ ARG PKG_DEPS="\
 "
 ENV PKG_DEPS=$PKG_DEPS
 
-COPY --from=builder --chown=101:101 /usr/local/bin/sqlite3 /usr/local/bin/sqlite3
+COPY --from=builder --chown=101:101 /usr/bin/sqlite3 /usr/bin/sqlite3
+COPY --from=builder --chown=101:101 /usr/lib/libsqlite3* /usr/lib/
 COPY --from=builder --chown=101:101 /etc/nginx /etc/nginx
 COPY --from=builder --chown=101:101 /usr/local/lib /usr/local/lib
 COPY --from=builder --chown=101:101 /usr/local/share/lua /usr/local/share/lua
@@ -458,7 +456,7 @@ RUN apk add --no-cache --virtual .gettext gettext \
   # Fix LUA alias
   && ln -sf /usr/bin/lua${VER_LUA} /usr/local/bin/lua \
   && apk add --no-cache --virtual pkg_tz tzdata \
-# Bring in curl and ca-certificates to make registering on DNS SD easier
+  # Bring in curl and ca-certificates to make registering on DNS SD easier
   && apk add --no-cache --virtual pkg_dns curl ca-certificates pcre git bash findutils \
     openssl \
     python3 \
@@ -471,11 +469,11 @@ RUN apk add --no-cache --virtual .gettext gettext \
     gd \
     libmcrypt-dev \
     ca-certificates \
-# forward request and error logs to docker log collector
+  # forward request and error logs to docker log collector
   && mkdir -p /var/log/nginx \
   && ln -sf /dev/stdout /var/log/nginx/access.log \
   && ln -sf /dev/stderr /var/log/nginx/error.log \
-# create nginx user/group first, to be consistent throughout docker variants
+  # create nginx user/group first, to be consistent throughout docker variants
   && addgroup -g 101 -S nginx \
   && adduser -S -D -H -u 101 -h /var/cache/nginx -s /sbin/nologin -G nginx -g nginx nginx
 
