@@ -11,8 +11,8 @@ If you have improvements or suggestions please open an issue or pull request on 
 |-----|-------|-----|--------|--------|
 | 1.5.8 | main | 1.22.1 | 7.2.34 | 5.4 | 3.12 |
 | 1.5.9 | main | 1.26.2 | 7.2.34 | 5.4.7 | 3.12 |
-| 1.5.10 | main | 1.26.2 | 7.4.33 | 5.4.7 | 3.16 |
-| latest/2.1.5 | main |1.26.2 | 8.1.31 | 3.20 |
+| 1.8.3 | main | 1.26.2 | 7.4.33 | 5.4.7 | 3.16 |
+| 2.1.6 | main | 1.26.2 | 8.1.31 | 5.4.7 | 3.20 |
 
 For other tags please see: [versioning](https://github.com/psanchezg/nginx-php-fpm/tree/main/docs/versioning.md)
 
@@ -28,19 +28,22 @@ For other tags please see: [versioning](https://github.com/psanchezg/nginx-php-f
 To build image:
 ```
 DOCKER_DEFAULT_PLATFORM=linux/amd64 docker build -t psanchezg/nginx-php-fpm:1.5.9 .
-DOCKER_DEFAULT_PLATFORM=linux/amd64 docker build --build-arg VER_PHP=7.4.33 --build-arg DISTRO_VER=3.16 --build-arg VER_DOCKER_IMAGE=1.5.10 -t psanchezg/nginx-php-fpm:1.5.10 .
+DOCKER_DEFAULT_PLATFORM=linux/amd64 docker build --build-arg VER_PHP=7.4.33 --build-arg DISTRO_VER=3.16 --build-arg VER_DOCKER_IMAGE=1.8.3 -t psanchezg/nginx-php-fpm:1.8.3 .
+DOCKER_DEFAULT_PLATFORM=linux/amd64 docker build --build-arg VER_PHP=8.1.31 --build-arg DISTRO_VER=3.20 --build-arg VER_DOCKER_IMAGE=2.1.6 -t psanchezg/nginx-php-fpm:2.1.6 .
 ```
 
 To pull from docker hub:
 ```
 docker pull psanchezg/nginx-php-fpm:1.5.9
-docker pull psanchezg/nginx-php-fpm:1.5.10
+docker pull psanchezg/nginx-php-fpm:1.8.3
+docker pull psanchezg/nginx-php-fpm:2.1.6
 ```
 ### Running
 To simply run the container:
 ```
 docker run -d psanchezg/nginx-php-fpm:1.5.9
-docker run -d psanchezg/nginx-php-fpm:1.5.10
+docker run -d psanchezg/nginx-php-fpm:1.8.3
+docker run -d psanchezg/nginx-php-fpm:2.1.6
 ```
 To dynamically pull code from git when starting:
 ```
