@@ -9,9 +9,10 @@ If you have improvements or suggestions please open an issue or pull request on 
 ### Versioning
 | Docker Tag | Git Release | Nginx Version | PHP Version | LUA Version | Alpine Version |
 |-----|-------|-----|--------|--------|
-| 1.5.8 | 1.5.8 | 1.22.1 | 7.2.34 | 5.4 | 3.12 |
-| 1.5.9 | 1.5.8 | 1.26.2 | 7.2.34 | 5.4.7 | 3.12 |
-| 1.5.10 | 1.5.8 | 1.26.2 | 7.4.33 | 5.4.7 | 3.12 |
+| 1.5.8 | main | 1.22.1 | 7.2.34 | 5.4 | 3.12 |
+| 1.5.9 | main | 1.26.2 | 7.2.34 | 5.4.7 | 3.12 |
+| 1.5.10 | main | 1.26.2 | 7.4.33 | 5.4.7 | 3.16 |
+| latest/2.1.5 | main |1.26.2 | 8.1.31 | 3.20 |
 
 For other tags please see: [versioning](https://github.com/psanchezg/nginx-php-fpm/tree/main/docs/versioning.md)
 
