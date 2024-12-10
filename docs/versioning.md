@@ -33,6 +33,14 @@ The latest tag will always follow the master branch in git. the other versions w
 
 These tags will be created on GitHub and as tags in docker hub.
 
+#### PHP 7.4
+
+| Docker Tag | PHP Version | Nginx Version | Alpine Version | Container Scripts | Notes |
+|-----|-------|-----|--------|--------|----------|
+| 1.8.0 | 7.4.33 |1.22.1 | 3.16 | 0.4.0 | upgrade php to 7.4.33 |
+
+These tags will be created on psanchezg's GitHub account and same account in docker hub.
+
 ### Unmaintained tags:
 
 #### PHP 7.4
@@ -78,6 +86,8 @@ These tags will be created on GitHub and as tags in docker hub.
 | 1.5.5 | 7.2.10 |1.14.0 | 3.7 | 0.3.8 |
 | 1.5.6 | 7.2.9 |1.14.0 | 3.7 | 0.3.8 |
 | 1.5.7 | 7.2.10 |1.14.0 | 3.7 | 0.3.8 |
+| 1.5.8 | 7.2.34 |1.22.1 | 3.12 | ? |
+| 1.5.9 | 7.2.34 |1.26.1 | 3.21 | ? |
 
 #### PHP 7.1
 

@@ -25,10 +25,12 @@ The following are already installed and ready to use:
 | gd | **GD**: Image creation and manipulation library 
 | intl | **Internationalization** (i18n) function library 
 | mysqli | **MySQL Improved**: Procedural-style  library for connecting to and using a MySQL database
+| pgsql | **PostgreSQL**: PostgreSQL database
 | opcache | **OPcache**: Improves PHP performace by storing precompiled script bytecode in shared memory 
 | pdo | **PDO**: PHP Database Object; Object-oriented library for connecting to various databases.
 | pdo_mysql | **MySQL Driver** for PDO
 | pdo_sqlite | **SQLite Driver** for PDO
+| pdo_pgsql | **PostgreSQL Driver** for PDO
 | soap | **SOAP**: **S**imple **O**bject **A**ccess **P**rotocol library
 | xsl | **XSL**: e**X**stensible **S**tyling **L**anguage library
 | zip | **ZIP**: Transparently read and write ZIP compressed archives
