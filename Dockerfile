@@ -283,10 +283,8 @@ RUN make deps \
 
 # Download latest release (sqlite3)
 RUN wget -O sqlite.tar.gz https://www.sqlite.org/src/tarball/sqlite.tar.gz?r=release \
-  && tar xvfz sqlite.tar.gz
-
-# Configure and make SQLite3 binary
-RUN ./sqlite/configure --prefix=/usr \
+    && tar xvfz sqlite.tar.gz \
+    && ./sqlite/configure --prefix=/usr/local \
     && make \
     && make install \
     # Smoke test
@@ -297,58 +295,70 @@ RUN ./sqlite/configure --prefix=/usr \
 ####################################
 RUN apk update && apk upgrade && \
     apk add --no-cache \
-    bash \
-    openssh-client \
-    wget \
-    supervisor \
-    curl \
-    libcurl \
-    libpq \
-    git \
-    python3 \
-    py3-pip \
-    ca-certificates \
-    dialog \
-    autoconf \
-    make \
-    openssl-dev \
-    libressl-dev \
-    libzip-dev \
-    bzip2-dev \
-    icu-dev \
-    gcc && \
+      bash \
+      openssh-client \
+      wget \
+      supervisor \
+      curl \
+      libcurl \
+      libpq \
+      git \
+      python3 \
+      py3-pip \
+      ca-certificates \
+      dialog \
+      autoconf \
+      make \
+      openssl-dev \
+      libressl-dev \
+      libzip-dev \
+      bzip2-dev \
+      icu-dev \
+      gcc && \
     apk add --no-cache --virtual .sys-deps \
-    musl-dev \
-    linux-headers \
-    augeas-dev \
-    libmcrypt-dev \
-    libpng-dev \
-    libxslt-dev \
-    python3-dev \
-    libffi-dev \
-    freetype-dev \
-    sqlite-dev \
-    imap-dev \
-    libjpeg-turbo-dev \
-    postgresql-dev && \
+      musl-dev \
+      linux-headers \
+      augeas-dev \
+      libmcrypt-dev \
+      libpng-dev \
+      libxslt-dev \
+      python3-dev \
+      libffi-dev \
+      freetype-dev \
+      imap-dev \
+      libjpeg-turbo-dev \
+      postgresql-dev && \
+    pip install --upgrade pip && \
     docker-php-ext-configure gd \
       --with-gd \
       --with-freetype-dir \
       --with-jpeg-dir && \
-    docker-php-ext-install gd && \
-    pip install --upgrade pip && \
-    #curl iconv session
-    #docker-php-ext-install pdo_mysql pdo_sqlite mysqli mcrypt gd exif intl xsl json soap dom zip opcache && \
-    # docker-php-ext-install iconv pdo_mysql pdo_sqlite pgsql pdo_pgsql mysqli gd exif intl xsl json soap dom zip opcache && \
-    docker-php-ext-install pdo_mysql mysqli pdo_sqlite pgsql pdo_pgsql exif intl xsl soap zip && \
+    NPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) && \
+    docker-php-ext-install -j${NPROC} gd pdo_mysql mysqli pdo_sqlite pgsql pdo_pgsql exif intl xsl soap zip && \
     pecl install xdebug-3.1.5 && \
     docker-php-source delete && \
     pecl install mcrypt-1.0.7 && \
     docker-php-ext-enable mcrypt && \
-    mkdir -p /etc/nginx && \
-    mkdir -p /var/www/app && \
-    mkdir -p /run/nginx && \
-    mkdir -p /var/log/supervisor
+    apk del --no-cache \
+      openssl-dev \
+      libressl-dev \
+      libzip-dev \
+      bzip2-dev \
+      icu-dev \
+      augeas-dev \
+      libmcrypt-dev \
+      libpng-dev \
+      libxslt-dev \
+      python3-dev \
+      libffi-dev \
+      freetype-dev \
+      imap-dev \
+      libjpeg-turbo-dev \
+      postgresql-dev \
+    && mkdir -p /etc/nginx \
+    && mkdir -p /var/www/app \
+    && mkdir -p /run/nginx \
+    && mkdir -p /var/log/supervisor
   
 ENV CRYPTOGRAPHY_DONT_BUILD_RUST=1
 
@@ -415,7 +425,7 @@ ARG PKG_DEPS="\
 "
 ENV PKG_DEPS=$PKG_DEPS
 
-COPY --from=builder --chown=101:101 /usr/bin/sqlite3 /usr/bin/sqlite3
+COPY --from=builder --chown=101:101 /usr/local/bin/sqlite3 /usr/local/bin/sqlite3
 COPY --from=builder --chown=101:101 /etc/nginx /etc/nginx
 COPY --from=builder --chown=101:101 /usr/local/lib /usr/local/lib
 COPY --from=builder --chown=101:101 /usr/local/share/lua /usr/local/share/lua
