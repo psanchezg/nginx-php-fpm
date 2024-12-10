@@ -310,6 +310,7 @@ RUN apk update && apk upgrade && \
       python3 \
       py3-pip \
       ca-certificates \
+      openjdk11 \
       dialog \
       autoconf \
       make \
