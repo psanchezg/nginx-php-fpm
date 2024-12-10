@@ -26,8 +26,8 @@ For other tags please see: [versioning](https://github.com/psanchezg/nginx-php-f
 
 To build image:
 ```
-DOCKER_DEFAULT_PLATFORM=linux/amd64 docker build --build-arg VER_PHP=7.2.34 --build-arg DISTRO_VER=1.5.9 -t psanchezg/nginx-php-fpm:1.5.9 .
-DOCKER_DEFAULT_PLATFORM=linux/amd64 docker build --build-arg VER_PHP=7.4.33 --build-arg DISTRO_VER=1.5.10 -t psanchezg/nginx-php-fpm:1.5.10 .
+DOCKER_DEFAULT_PLATFORM=linux/amd64 docker build -t psanchezg/nginx-php-fpm:1.5.9 .
+DOCKER_DEFAULT_PLATFORM=linux/amd64 docker build --build-arg VER_PHP=7.4.33 --build-arg DISTRO_VER=3.16 --build-arg VER_DOCKER_IMAGE=1.5.10 -t psanchezg/nginx-php-fpm:1.5.10 .
 ```
 
 To pull from docker hub:

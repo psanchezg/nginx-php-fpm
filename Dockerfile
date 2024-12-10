@@ -9,7 +9,8 @@
 
 ARG ARCH=
 ARG DISTRO=alpine
-ARG DISTRO_VER=1.5.9
+ARG DISTRO_VER=3.12
+ARG VER_DOCKER_IMAGE=1.5.9
 ARG VER_PHP=7.2.34
 
 #############################
@@ -26,7 +27,7 @@ ENV php_vars=/usr/local/etc/php/conf.d/docker-vars.ini
 
 ENV DOCKER_IMAGE=psanchezg/nginx-php-fpm
 ENV DOCKER_IMAGE_OS=${DISTRO}
-ENV DOCKER_IMAGE_TAG=${DISTRO_VER}
+ENV DOCKER_IMAGE_TAG=${VER_DOCKER_IMAGE}
 
 ARG BUILD_DATE
 ENV BUILD_DATE=$BUILD_DATE
@@ -432,7 +433,7 @@ COPY --from=builder --chown=101:101 /usr/sbin/nginx-debug /usr/sbin/nginx-debug
 COPY --from=builder --chown=101:101 /var/cache/nginx /var/cache/nginx
 COPY --from=builder --chown=101:101 /usr/local/bin/luarocks /usr/local/bin/luarocks
 COPY --from=builder --chown=101:101 /usr/local/etc/luarocks /usr/local/etc/luarocks
-COPY --from=builder /usr/local/lib/php/extensions/no-debug-non-zts-20170718 /usr/local/lib/php/extensions/no-debug-non-zts-20170718
+COPY --from=builder /usr/local/lib/php/extensions/no-debug-non-zts-* /usr/local/lib/php/extensions/
 COPY --from=builder /usr/local/etc/php/conf.d /usr/local/etc/php/conf.d
 COPY --from=builder /usr/bin/composer /usr/bin/composer
 COPY --from=builder /etc/letsencrypt /etc/letsencrypt
