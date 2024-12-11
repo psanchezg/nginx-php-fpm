@@ -53,7 +53,7 @@ These tags will be created on GitHub and as tags in docker hub.
 | 1.8.1 | 7.4.33 | 1.23.2 | 3.16 | 0.4.1 | | | 
 | 1.8.2 | 7.4.33 | 1.23.2 | 3.16 | 0.4.2 | 11 | | 
 | 1.8.3 | 7.4.33 | 1.26.2 | 3.16 | 0.5.0 | | With LUA |
-| 1.8.4 | 7.4.33 | 1.26.2 | 3.16 | 0.5.0 | 11 | With LUA |
+| 1.8.4 | 7.4.33 | 1.26.2 | 3.16 | 0.5.0 | 11 | With LUA & GRPC |
 
 These tags will be created on psanchezg's GitHub account and same account in docker hub.
 

@@ -9,9 +9,9 @@
 
 ARG ARCH=AMD64
 ARG DISTRO=alpine
-ARG DISTRO_VER=3.12
-ARG VER_DOCKER_IMAGE=1.5.9
-ARG VER_PHP=7.2
+ARG DISTRO_VER=3.8
+ARG VER_DOCKER_IMAGE=1.4.0
+ARG VER_PHP=5.6
 
 #############################
 # Settings Common Variables #
@@ -34,8 +34,16 @@ ENV BUILD_DATE=$BUILD_DATE
 ARG VCS_REF
 ENV VCS_REF=$VCS_REF
 
+# xdebug
+ARG XDEBUG_VERSION=3.1.5
+ENV XDEBUG_VERSION=$XDEBUG_VERSION
+
+# apcu
+ARG APCU_VERSION=5.1.22
+ENV APCU_VERSION=$APCU_VERSION
+
 # lua
-ARG VER_LUA=5.1
+ARG VER_LUA=5.2
 ENV VER_LUA=$VER_LUA
 
 # ngx_devel_kit
@@ -58,14 +66,14 @@ ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH
 
 # lua-nginx-module
 # https://github.com/openresty/lua-nginx-module/tags
-ARG VER_LUA_NGINX_MODULE=0.10.27
+ARG VER_LUA_NGINX_MODULE=0.10.19
 ENV VER_LUA_NGINX_MODULE=$VER_LUA_NGINX_MODULE
 
 # lua-resty-core
 # https://github.com/openresty/lua-resty-core/tags
 ARG VER_LUA_RESTY_CORE=0.1.30
 ENV VER_LUA_RESTY_CORE=$VER_LUA_RESTY_CORE
-ARG LUA_LIB_DIR=/usr/local/share/lua/${VER_LUA}
+ARG LUA_LIB_DIR=/usr/local/share/lua/5.4
 ENV LUA_LIB_DIR=$LUA_LIB_DIR
 
 # lua-resty-lrucache
@@ -115,7 +123,7 @@ ENV VER_OPENRESTY_SIGNAL=$VER_OPENRESTY_SIGNAL
 
 # lua-tablepool
 # https://github.com/openresty/lua-tablepool/tags
-ARG VER_OPENRESTY_TABLEPOOL=0.03
+ARG VER_OPENRESTY_TABLEPOOL=0.02
 ENV VER_OPENRESTY_TABLEPOOL=$VER_OPENRESTY_TABLEPOOL
 
 # lua-resty-upstream-healthcheck
@@ -145,7 +153,7 @@ ENV VER_PROMETHEUS=$VER_PROMETHEUS
 
 # stream-lua-nginx-module
 # https://github.com/openresty/stream-lua-nginx-module/tags
-ARG VER_OPENRESTY_STREAMLUA=0.0.15
+ARG VER_OPENRESTY_STREAMLUA=0.0.14
 ENV VER_OPENRESTY_STREAMLUA=$VER_OPENRESTY_STREAMLUA
 
 # https://github.com/nginx/nginx/tags
@@ -233,7 +241,8 @@ ARG BUILD_DEPS_BASE="\
         lua${VER_LUA} \
         lua${VER_LUA}-dev \
         make \
-        openssl-dev \
+        # No 5.6 openssl-dev \
+        libressl-dev \
         patch \
         pcre-dev \
         tar \
@@ -249,6 +258,7 @@ ARG BUILD_DEPS_ARM64V8="\
         ${BUILD_DEPS_BASE} \
         gcc-aarch64-none-elf \
 "
+
 ENV BUILD_DEPS_ARM64V8=$BUILD_DEPS_ARM64V8
 ENV BUILD_DEPS=
 
@@ -263,6 +273,7 @@ RUN set -eux \
     && apk update \
     && apk add --no-cache \
         alpine-sdk \
+        # No 5.6 grpc \
         bash \
         findutils \
         gd-dev \
@@ -270,7 +281,8 @@ RUN set -eux \
         libedit-dev \
         libxslt-dev \
         pcre-dev \
-        openssl-dev \
+        # No 5.6 openssl-dev \
+        libressl-dev \
         linux-headers \
         perl-dev \
         tcl-dev
@@ -310,11 +322,12 @@ RUN apk update && apk upgrade && \
       python3 \
       py3-pip \
       ca-certificates \
-      openjdk11 \
+      # No 5.6 openjdk11 \
       dialog \
       autoconf \
       make \
-      openssl-dev \
+      # No 5.6 openssl-dev \
+      libressl-dev \
       sqlite-dev \
       libzip-dev \
       libzip \
@@ -339,12 +352,18 @@ RUN apk update && apk upgrade && \
     docker-php-ext-configure gd && \
     NPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) && \
     docker-php-ext-install -j${NPROC} gd pdo_mysql mysqli pdo_sqlite pgsql pdo_pgsql exif intl xsl soap zip && \
-    pecl install xdebug-3.1.5 && \
+    pecl install xdebug-${XDEBUG_VERSION} && \
+    pecl install apcu-${APCU_VERSION} && \
+    # No 5.6 pecl install grpc && \
+	  pecl install mcrypt-1.0.7 && \
+    pecl clear-cache && \
+    # No 5.6 docker-php-ext-enable apcu opcache grpc && \
+    docker-php-ext-enable apcu opcache && \
     docker-php-source delete && \
-    pecl install mcrypt-1.0.7 && \
     docker-php-ext-enable mcrypt && \
     apk del --no-cache \
       openssl-dev \
+      libressl-dev \
       libzip-dev \
       bzip2-dev \
       icu-dev \
@@ -423,7 +442,8 @@ ARG PKG_DEPS="\
         geoip-dev \
         lua${VER_LUA} \
         lua${VER_LUA}-dev \
-        openssl-dev \
+        # No 5.6 openssl-dev \
+        libressl-dev \
         pcre-dev \
         zlib-dev \
 "
@@ -439,7 +459,7 @@ COPY --from=builder --chown=101:101 /usr/sbin/nginx-debug /usr/sbin/nginx-debug
 COPY --from=builder --chown=101:101 /var/cache/nginx /var/cache/nginx
 COPY --from=builder --chown=101:101 /usr/local/bin/luarocks /usr/local/bin/luarocks
 COPY --from=builder --chown=101:101 /usr/local/etc/luarocks /usr/local/etc/luarocks
-COPY --from=builder --chown=101:101 /usr/local/bin/lua* /usr/local/bin/
+COPY --from=builder --chown=101:101 /usr/bin/lua* /usr/bin/
 COPY --from=builder /usr/local/lib/php/extensions/no-debug-non-zts-* /usr/local/lib/php/extensions/
 COPY --from=builder /usr/local/etc/php/conf.d /usr/local/etc/php/conf.d
 COPY --from=builder /usr/bin/composer /usr/bin/composer
@@ -447,8 +467,9 @@ COPY --from=builder /etc/letsencrypt /etc/letsencrypt
 # COPY --from=builder /usr/lib/python3.8/site-packages/certbot /usr/lib/python3.8/site-packages/certbot
 # COPY --from=builder /usr/bin/certbot /usr/bin/certbot
 
-RUN apk add --no-cache --virtual .gettext gettext \
-  && apk add --no-cache ${PKG_DEPS} \
+RUN \
+  # No 5.6 apk add --no-cache --virtual .gettext gettext grpc \
+  apk add --no-cache --virtual .gettext gettext \
   && mv /usr/bin/envsubst /tmp/ \
   \
   && runDeps="$( \
@@ -510,7 +531,7 @@ RUN echo "cgi.fix_pathinfo=0" > ${php_vars} &&\
     echo "upload_max_filesize = 100M"  >> ${php_vars} &&\
     echo "post_max_size = 100M"  >> ${php_vars} &&\
     echo "variables_order = \"EGPCS\""  >> ${php_vars} && \
-    echo "memory_limit = 128M"  >> ${php_vars} && \
+    echo "memory_limit = 512M"  >> ${php_vars} && \
     sed -i \
         -e "s/;catch_workers_output\s*=\s*yes/catch_workers_output = yes/g" \
         -e "s/pm.max_children = 5/pm.max_children = 4/g" \

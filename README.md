@@ -7,13 +7,14 @@ This is a Dockerfile/image to build a container for nginx and php-fpm, with the 
 If you have improvements or suggestions please open an issue or pull request on the GitHub project page.
 
 ### Versioning
-| Docker Tag | Git Release | Nginx Version | PHP Version | LUA Version | Alpine Version | Java Version |
+| Docker Tag | Git Release | Nginx Version | PHP Version | LUA Version | Alpine Version | Java Version | Platforms |
 |-----|-------|-----|--------|--------|
-| 1.5.8 | main | 1.22.1 | 7.2.34 | 5.4 | 3.12 | - |
-| 1.5.9 | main | 1.26.2 | 7.2.34 | 5.4.7 | 3.12 | - |
-| 1.8.3 | main | 1.26.2 | 7.4.33 | 5.4.7 | 3.16 | - |
-| 1.8.4 | main | 1.26.2 | 7.4.33 | 5.4.7 | 3.16 | 11 |
-| 2.1.6 | main | 1.26.2 | 8.1.31 | 5.4.7 | 3.20 | - |
+| 1.4.0 | main | 1.24.0 | 5.6.40 | - | 3.8 | - | amd64 |
+| 1.5.8 | main | 1.22.1 | 7.2.34 | - | 3.12 | - | amd64 |
+| 1.5.9 | main | 1.26.2 | 7.2.34 | 5.1 | 3.12 | - | amd64, arm64 |
+| 1.8.1 | main | 1.23.2 | 7.4.33 | - | 3.16 | 11 | amd64 |
+| 1.8.3 | main | 1.26.2 | 7.4.33 | 5.4.4 | 3.16 | 11 | amd64, arm64 |
+| 2.1.6 | main | 1.26.2 | 8.1.31 | 5.4.6 | 3.20 | - | amd64, arm64 |
 
 For other tags please see: [versioning](https://github.com/psanchezg/nginx-php-fpm/tree/main/docs/versioning.md)
 
@@ -21,21 +22,20 @@ For other tags please see: [versioning](https://github.com/psanchezg/nginx-php-f
 - [https://github.com/psanchezg/nginx-php-fpm](https://github.com/psanchezg/nginx-php-fpm)
 - [https://gitlab.com/ric_harvey/nginx-php-fpm](https://gitlab.com/ric_harvey/nginx-php-fpm)
 - [https://registry.hub.docker.com/u/psanchezg/nginx-php-fpm/](https://registry.hub.docker.com/u/psanchezg/nginx-php-fpm/)
-- [https://github.com/psanchezg/nginx-php-fpm](https://github.com/psanchezg/nginx-php-fpm)
-- [https://registry.hub.docker.com/u/psanchezg/nginx-php-fpm/](https://registry.hub.docker.com/u/psanchezg/nginx-php-fpm/)
 
 ## Quick Start
 
-To build image:
+To build image (tested from Mac M2):
 ```
-DOCKER_DEFAULT_PLATFORM=linux/amd64 docker build -t psanchezg/nginx-php-fpm:1.5.9 .
-DOCKER_DEFAULT_PLATFORM=linux/amd64 docker build --build-arg VER_PHP=7.4.33 --build-arg DISTRO_VER=3.16 --build-arg VER_DOCKER_IMAGE=1.8.3 -t psanchezg/nginx-php-fpm:1.8.3 .
-DOCKER_DEFAULT_PLATFORM=linux/amd64 docker build --build-arg VER_PHP=7.4.33 --build-arg DISTRO_VER=3.16 --build-arg VER_DOCKER_IMAGE=1.8.3 -t psanchezg/nginx-php-fpm:1.8.4 .
-DOCKER_DEFAULT_PLATFORM=linux/amd64 docker build --build-arg VER_PHP=8.1.31 --build-arg DISTRO_VER=3.20 --build-arg VER_DOCKER_IMAGE=2.1.6 -t psanchezg/nginx-php-fpm:2.1.6 .
+DOCKER_DEFAULT_PLATFORM=linux/amd64 docker build -t psanchezg/nginx-php-fpm:1.4.0 -f Dockerfile-5.6 .
+docker buildx build --platform=linux/amd64,linux/arm64 -t psanchezg/nginx-php-fpm:1.5.9 -f Dockerfile-7.2 .
+docker buildx build --platform=linux/amd64,linux/arm64 --build-arg VER_LUA=5.4 --build-arg VER_PHP=7.4 --build-arg DISTRO_VER=3.16 --build-arg VER_DOCKER_IMAGE=1.8.3 -t psanchezg/nginx-php-fpm:1.8.3 .
+docker buildx build --platform=linux/amd64,linux/arm64 --build-arg VER_LUA=5.4 --build-arg VER_PHP=8.1 --build-arg DISTRO_VER=3.20 --build-arg VER_DOCKER_IMAGE=2.1.6 -t psanchezg/nginx-php-fpm:2.1.6 .
 ```
 
 To pull from docker hub:
 ```
+docker pull psanchezg/nginx-php-fpm:1.4.0
 docker pull psanchezg/nginx-php-fpm:1.5.9
 docker pull psanchezg/nginx-php-fpm:1.8.3
 docker pull psanchezg/nginx-php-fpm:2.1.6
@@ -43,6 +43,7 @@ docker pull psanchezg/nginx-php-fpm:2.1.6
 ### Running
 To simply run the container:
 ```
+docker run -d psanchezg/nginx-php-fpm:1.4.0
 docker run -d psanchezg/nginx-php-fpm:1.5.9
 docker run -d psanchezg/nginx-php-fpm:1.8.3
 docker run -d psanchezg/nginx-php-fpm:2.1.6

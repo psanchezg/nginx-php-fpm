@@ -70,9 +70,12 @@ dep-luajit:
 #  lua_package_path '/usr/local/share/lua/5.4/?.lua;;';
 #  lua_package_cpath '/usr/local/lib/lua/5.4/?.so;;';
 # it is safe to delete the folders as they have JUST been created
-	rm -r /usr/local/lib/lua/5.1 /usr/local/share/lua/5.1
-	ln -s /usr/local/lib/lua/${VER_LUA} /usr/local/lib/lua/5.1
-	ln -s /usr/local/share/lua/${VER_LUA} /usr/local/share/lua/5.1
+	# ifeq ($(VER_LUA),"5.1")
+	# else
+    #     rm -r /usr/local/lib/lua/5.1 /usr/local/share/lua/5.1
+	# 	ln -s /usr/local/lib/lua/${VER_LUA} /usr/local/lib/lua/5.1
+	# 	ln -s /usr/local/share/lua/${VER_LUA} /usr/local/share/lua/5.1
+	# endif
 
 # Lua Nginx Module
 # ##############################################################################

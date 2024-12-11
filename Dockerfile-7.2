@@ -275,7 +275,7 @@ RUN set -eux \
         perl-dev \
         tcl-dev
 
-COPY tpl/Makefile Makefile
+COPY tpl/Makefile-5.1 Makefile
 
 RUN make deps \
     && make core \
@@ -335,6 +335,7 @@ RUN apk update && apk upgrade && \
       imap-dev \
       libjpeg-turbo-dev \
       postgresql-dev && \
+    apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS && \
     #pip install --upgrade pip && \
     docker-php-ext-configure gd && \
     NPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) && \
@@ -343,6 +344,7 @@ RUN apk update && apk upgrade && \
     docker-php-source delete && \
     pecl install mcrypt-1.0.7 && \
     docker-php-ext-enable mcrypt && \
+    apk del .phpize-deps && \
     apk del --no-cache \
       openssl-dev \
       libzip-dev \
