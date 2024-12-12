@@ -8,7 +8,7 @@ If you have improvements or suggestions please open an issue or pull request on 
 
 ### Versioning
 | Docker Tag | Git Release | Nginx Version | PHP Version | LUA Version | Alpine Version | Java Version | Platforms |
-|-----|-------|-----|--------|--------|
+|-----|-------|-----|--------|--------|--------|--------|--------|
 | 1.4.0 | main | 1.24.0 | 5.6.40 | - | 3.8 | - | amd64 |
 | 1.5.8 | main | 1.22.1 | 7.2.34 | - | 3.12 | - | amd64 |
 | 1.5.9 | main | 1.26.2 | 7.2.34 | 5.1 | 3.12 | - | amd64, arm64 |
