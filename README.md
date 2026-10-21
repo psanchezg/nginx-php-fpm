@@ -15,6 +15,10 @@ If you have improvements or suggestions please open an issue or pull request on 
 | 1.8.1 | main | 1.23.2 | 7.4.33 | - | 3.16 | 11 | amd64 |
 | 1.8.3 | main | 1.26.2 | 7.4.33 | 5.4.4 | 3.16 | 11 | amd64, arm64 |
 | 2.1.6 | main | 1.26.2 | 8.1.31 | 5.4.6 | 3.20 | - | amd64, arm64 |
+| 2.2.0 | main | 1.28.0 | 8.4.8 | 5.4.6 | 3.22 | - | amd64, arm64 |
+| 2.3.0-php8.2 | main | 1.30.6 | 8.2.35 | 5.4 | 3.24 | - | amd64, arm64 |
+| 2.3.0-php8.4 | main | 1.30.6 | 8.4.27 | 5.4 | 3.24 | - | amd64, arm64 |
+| 2.3.0-php8.5 | main | 1.30.6 | 8.5.12 | 5.4 | 3.24 | - | amd64, arm64 |
 
 For other tags please see: [versioning](https://github.com/psanchezg/nginx-php-fpm/tree/main/docs/versioning.md)
 
@@ -27,10 +31,26 @@ For other tags please see: [versioning](https://github.com/psanchezg/nginx-php-f
 
 To build image (tested from Mac M2):
 ```
+# Builds PHP 8.2, 8.4 and 8.5 for the native platform (linux/arm64 on Apple Silicon)
+./build.sh
+
+# Builds and pushes multi-arch images (linux/amd64,linux/arm64)
+PUSH=1 ./build.sh
+
+# Build a single PHP version
+./build.sh 8.5
+```
+
+Or build a single image manually:
+```
 DOCKER_DEFAULT_PLATFORM=linux/amd64 docker build -t psanchezg/nginx-php-fpm:1.4.0 -f Dockerfile-5.6 .
 docker buildx build --platform=linux/amd64,linux/arm64 -t psanchezg/nginx-php-fpm:1.5.9 -f Dockerfile-7.2 .
 docker buildx build --platform=linux/amd64,linux/arm64 --build-arg VER_LUA=5.4 --build-arg VER_PHP=7.4 --build-arg DISTRO_VER=3.16 --build-arg VER_DOCKER_IMAGE=1.8.3 -t psanchezg/nginx-php-fpm:1.8.3 .
 docker buildx build --platform=linux/amd64,linux/arm64 --build-arg VER_LUA=5.4 --build-arg VER_PHP=8.1 --build-arg DISTRO_VER=3.20 --build-arg VER_DOCKER_IMAGE=2.1.6 -t psanchezg/nginx-php-fpm:2.1.6 .
+docker buildx build --platform=linux/amd64,linux/arm64 --build-arg VER_LUA=5.4 --build-arg VER_PHP=8.4.8 --build-arg DISTRO_VER=3.22 --build-arg VER_DOCKER_IMAGE=2.2.0 --build-arg VER_LUAJIT=2.1-20250529 --build-arg VER_LUA_NGINX_MODULE=0.10.28 --build-arg VER_LUA_RESTY_CORE=0.1.31 --build-arg VER_OPENRESTY_HEADERS=0.38 --build-arg VER_OPENRESTY_MYSQL=0.28 --build-arg VER_OPENRESTY_REDIS=0.32 --build-arg VER_OPENRESTY_WEBSOCKET=0.13 --build-arg VER_LUAROCKS=3.12.2 --build-arg VER_OPENRESTY_STREAMLUA=0.0.16 --build-arg VER_NGINX=1.28.0 -t psanchezg/nginx-php-fpm:2.2.0 .
+docker buildx build --platform=linux/amd64,linux/arm64 --build-arg VER_PHP=8.2.35 --build-arg VER_DOCKER_IMAGE=2.3.0-php8.2 -t psanchezg/nginx-php-fpm:2.3.0-php8.2 .
+docker buildx build --platform=linux/amd64,linux/arm64 --build-arg VER_PHP=8.4.27 --build-arg VER_DOCKER_IMAGE=2.3.0-php8.4 -t psanchezg/nginx-php-fpm:2.3.0-php8.4 .
+docker buildx build --platform=linux/amd64,linux/arm64 --build-arg VER_PHP=8.5.12 --build-arg VER_DOCKER_IMAGE=2.3.0-php8.5 -t psanchezg/nginx-php-fpm:2.3.0-php8.5 .
 ```
 
 To pull from docker hub:
@@ -39,6 +59,10 @@ docker pull psanchezg/nginx-php-fpm:1.4.0
 docker pull psanchezg/nginx-php-fpm:1.5.9
 docker pull psanchezg/nginx-php-fpm:1.8.3
 docker pull psanchezg/nginx-php-fpm:2.1.6
+docker pull psanchezg/nginx-php-fpm:2.2.0
+docker pull psanchezg/nginx-php-fpm:2.3.0-php8.2
+docker pull psanchezg/nginx-php-fpm:2.3.0-php8.4
+docker pull psanchezg/nginx-php-fpm:2.3.0-php8.5
 ```
 ### Running
 To simply run the container:
@@ -47,10 +71,14 @@ docker run -d psanchezg/nginx-php-fpm:1.4.0
 docker run -d psanchezg/nginx-php-fpm:1.5.9
 docker run -d psanchezg/nginx-php-fpm:1.8.3
 docker run -d psanchezg/nginx-php-fpm:2.1.6
+docker run -d psanchezg/nginx-php-fpm:2.2.0
+docker run -d psanchezg/nginx-php-fpm:2.3.0-php8.2
+docker run -d psanchezg/nginx-php-fpm:2.3.0-php8.4
+docker run -d psanchezg/nginx-php-fpm:2.3.0-php8.5
 ```
 To dynamically pull code from git when starting:
 ```
-docker run -d -e 'GIT_EMAIL=email_address' -e 'GIT_NAME=full_name' -e 'GIT_USERNAME=git_username' -e 'GIT_REPO=github.com/project' -e 'GIT_PERSONAL_TOKEN=<long_token_string_here>' psanchezg/nginx-php-fpm:1.5.9
+docker run -d -e 'GIT_EMAIL=email_address' -e 'GIT_NAME=full_name' -e 'GIT_USERNAME=git_username' -e 'GIT_REPO=github.com/project' -e 'GIT_PERSONAL_TOKEN=<long_token_string_here>' psanchezg/nginx-php-fpm:2.3.0-php8.5
 ```
 
 You can then browse to ```http://<DOCKER_HOST>``` to view the default install files. To find your ```DOCKER_HOST``` use the ```docker inspect``` to get the IP address (normally 172.17.0.2)

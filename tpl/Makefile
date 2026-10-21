@@ -29,9 +29,16 @@ core:
 		/var/cache/nginx/uwsgi_temp \
 		/var/cache/nginx/scgi_temp
 	cd /nginx-${VER_NGINX} \
-		&& (curl --fail -sLo nginx-socket_cloexec.patch https://raw.githubusercontent.com/openresty/openresty/master/patches/nginx-${VER_NGINX}-socket_cloexec.patch || \
-			curl -sLo nginx-socket_cloexec.patch https://raw.githubusercontent.com/openresty/openresty/master/patches/nginx-1.21.4-socket_cloexec.patch) \
-		&& patch -p1 < nginx-socket_cloexec.patch || exit 1 \
+		&& (curl --fail -sLo nginx-socket_cloexec.patch https://raw.githubusercontent.com/openresty/openresty/master/patches/nginx/${VER_NGINX}/nginx-${VER_NGINX}-socket_cloexec.patch || \
+			curl --fail -sLo nginx-socket_cloexec.patch https://raw.githubusercontent.com/openresty/openresty/master/patches/nginx/1.29.8/nginx-1.29.8-socket_cloexec.patch || \
+			rm -f nginx-socket_cloexec.patch) \
+		&& if [ -s nginx-socket_cloexec.patch ]; then \
+			if patch -p1 --dry-run < nginx-socket_cloexec.patch >/dev/null 2>&1; then \
+				patch -p1 < nginx-socket_cloexec.patch; \
+			else \
+				echo "socket_cloexec patch not applicable to nginx ${VER_NGINX}, skipping"; \
+			fi; \
+		fi \
 	&& ./configure ${NGINX_BUILD_CONFIG} --with-cc-opt="$(NGX_CFLAGS)" --with-ld-opt="$(NGX_LDOPT)" --with-debug \
 	&& make -j $(NPROC) build \
 	&& mv objs/nginx objs/nginx-debug \
