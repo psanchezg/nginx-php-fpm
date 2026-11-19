@@ -35,7 +35,8 @@ jobs:
 
           # If this is a git tag, use the tag name as the release version
           if [[ $GITHUB_REF == refs/tags/* ]]; then
-            VERSION=${GITHUB_REF#refs/tags/v}
+            VERSION=${GITHUB_REF#refs/tags/}
+            VERSION=${VERSION#v}
           fi
 
           TAGS="${DOCKER_IMAGE}:php${{ matrix.php }}"
