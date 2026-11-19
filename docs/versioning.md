@@ -17,12 +17,14 @@ The latest tag will always follow the master branch in git. the other versions w
 
 | Docker Tag | PHP Version | Nginx Version | Alpine Version | Container Scripts | Notes |
 |-----|-------|-----|--------|--------|----------|
+| 2.3.1-php8.5 | 8.5.12 | 1.30.7 | 3.24 | 0.5.0 | nginx 1.30.7 (security), Lua 5.4, LuaJIT 2.1-20260824 |
 | 2.3.0-php8.5 | 8.5.12 | 1.30.6 | 3.24 | 0.5.0 | nginx 1.30.6, Lua 5.4, LuaJIT 2.1-20260824 |
 
 #### PHP 8.4
 
 | Docker Tag | PHP Version | Nginx Version | Alpine Version | Container Scripts | Notes |
 |-----|-------|-----|--------|--------|----------|
+| 2.3.1-php8.4 | 8.4.27 | 1.30.7 | 3.24 | 0.5.0 | nginx 1.30.7 (security), Lua 5.4, LuaJIT 2.1-20260824 |
 | 2.3.0-php8.4 | 8.4.27 | 1.30.6 | 3.24 | 0.5.0 | nginx 1.30.6, Lua 5.4, LuaJIT 2.1-20260824 |
 | 2.2.0 | 8.4.8 | 1.28.0 | 3.22 | 0.5.0 | nginx 1.28.0, Lua 5.4 |
 
@@ -35,6 +37,7 @@ The latest tag will always follow the master branch in git. the other versions w
 
 | Docker Tag | PHP Version | Nginx Version | Alpine Version | Container Scripts | Notes |
 |-----|-------|-----|--------|--------|----------|
+| 2.3.1-php8.2 | 8.2.35 | 1.30.7 | 3.24 | 0.5.0 | nginx 1.30.7 (security), Lua 5.4, LuaJIT 2.1-20260824 |
 | 2.3.0-php8.2 | 8.2.35 | 1.30.6 | 3.24 | 0.5.0 | nginx 1.30.6, Lua 5.4, LuaJIT 2.1-20260824 |
 
 #### PHP 8.1

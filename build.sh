@@ -9,14 +9,14 @@
 #
 # Environment variables:
 #   IMAGE      Image name                    (default: psanchezg/nginx-php-fpm)
-#   VERSION    Release version               (default: 2.3.0)
+#   VERSION    Release version               (default: 2.3.1)
 #   PLATFORMS  Platforms for PUSH=1          (default: linux/amd64,linux/arm64)
 #   PUSH       1 to push instead of loading  (default: 0)
 #
 set -euo pipefail
 
 IMAGE="${IMAGE:-psanchezg/nginx-php-fpm}"
-VERSION="${VERSION:-2.3.0}"
+VERSION="${VERSION:-2.3.1}"
 PLATFORMS="${PLATFORMS:-linux/amd64,linux/arm64}"
 PUSH="${PUSH:-0}"
 DISTRO_VER="3.24"

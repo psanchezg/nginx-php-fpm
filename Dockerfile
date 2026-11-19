@@ -9,7 +9,7 @@
 
 ARG DISTRO=alpine
 ARG DISTRO_VER=3.24
-ARG VER_DOCKER_IMAGE=2.3.0-php8.5
+ARG VER_DOCKER_IMAGE=2.3.1-php8.5
 ARG VER_PHP=8.5.12
 
 #############################
@@ -155,7 +155,7 @@ ARG VER_OPENRESTY_STREAMLUA=0.0.19rc4
 ENV VER_OPENRESTY_STREAMLUA=$VER_OPENRESTY_STREAMLUA
 
 # https://github.com/nginx/nginx/tags
-ARG VER_NGINX=1.30.6
+ARG VER_NGINX=1.30.7
 ENV VER_NGINX=$VER_NGINX
 # References:
 #  - https://developers.redhat.com/blog/2018/03/21/compiler-and-linker-flags-gcc

@@ -26,7 +26,7 @@ The script accepts these environment variables:
 | Variable | Default | Description |
 |----|----|----|
 | `IMAGE` | `psanchezg/nginx-php-fpm` | Image name |
-| `VERSION` | `2.3.0` | Release version used in the image tags |
+| `VERSION` | `2.3.1` | Release version used in the image tags |
 | `PLATFORMS` | `linux/amd64,linux/arm64` | Platforms used when `PUSH=1` |
 | `PUSH` | `0` | Set to `1` to push instead of loading locally |
 
@@ -34,8 +34,8 @@ To build a single image manually, pass the PHP version as a build argument:
 ```
 docker buildx build --load \
   --build-arg VER_PHP=8.5.12 \
-  --build-arg VER_DOCKER_IMAGE=2.3.0-php8.5 \
-  -t psanchezg/nginx-php-fpm:2.3.0-php8.5 .
+  --build-arg VER_DOCKER_IMAGE=2.3.1-php8.5 \
+  -t psanchezg/nginx-php-fpm:2.3.1-php8.5 .
 ```
 
 The base image is selected from the official PHP Alpine tags using `VER_PHP`
