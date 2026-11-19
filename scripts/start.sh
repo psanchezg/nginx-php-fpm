@@ -80,7 +80,7 @@ if [ ! -d "/var/www/html/.git" ]; then
      git checkout ${GIT_COMMIT} || exit 1
    fi
    if [ -z "$SKIP_CHOWN" ]; then
-     chown -Rf nginx.nginx /var/www/html
+     chown -Rf nginx:nginx /var/www/html
    fi
  fi
 fi
@@ -139,7 +139,7 @@ if [ -f /etc/nginx/sites-available/default-ssl.conf ]; then
 fi
 
 # Set the desired timezone
-echo date.timezone=${TZ} > /usr/local/etc/php/conf.d/timezone.ini
+echo date.timezone=${TZ:-UTC} > /usr/local/etc/php/conf.d/timezone.ini
 
 # Display errors in docker logs
 if [ ! -z "$PHP_ERRORS_STDERR" ]; then
@@ -165,29 +165,17 @@ fi
 # Enable xdebug
 XdebugFile='/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini'
 if [[ "$ENABLE_XDEBUG" == "1" ]] ; then
-  if [ -f $XdebugFile ]; then
-  	echo "Xdebug enabled"
+  if [ -f $XdebugFile ] && grep -q xdebug.mode "$XdebugFile"; then
+    echo "Xdebug enabled"
   else
-  	echo "Enabling xdebug"
-  	echo "If you get this error, you can safely ignore it: /usr/local/bin/docker-php-ext-enable: line 83: nm: not found"
-  	# see https://github.com/docker-library/php/pull/420
-    docker-php-ext-enable xdebug
-    # see if file exists
-    if [ -f $XdebugFile ]; then
-        # See if file contains xdebug text.
-        if grep -q xdebug.remote_enable "$XdebugFile"; then
-            echo "Xdebug already enabled... skipping"
-        else
-            echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > $XdebugFile # Note, single arrow to overwrite file.
-            echo "xdebug.start_with_request=yes"  >> $XdebugFile
-            echo "xdebug.client_host=host.docker.internal" >> $XdebugFile
-            echo "xdebug.mode=debug" >> $XdebugFile
-            echo "xdebug.remote_log=/tmp/xdebug.log"  >> $XdebugFile
-            echo "xdebug.remote_autostart=false "  >> $XdebugFile # I use the xdebug chrome extension instead of using autostart
-            # NOTE: xdebug.remote_host is not needed here if you set an environment variable in docker-compose like so `- XDEBUG_CONFIG=remote_host=192.168.111.27`.
-            #       you also need to set an env var `- PHP_IDE_CONFIG=serverName=docker`
-        fi
-    fi
+    echo "Enabling xdebug"
+    echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so | head -n1)" > $XdebugFile # Note, single arrow to overwrite file.
+    echo "xdebug.start_with_request=yes"  >> $XdebugFile
+    echo "xdebug.client_host=host.docker.internal" >> $XdebugFile
+    echo "xdebug.mode=debug" >> $XdebugFile
+    echo "xdebug.log=/tmp/xdebug.log"  >> $XdebugFile
+    # NOTE: xdebug.client_host is not needed here if you set an environment variable in docker-compose like so `- XDEBUG_CONFIG=client_host=192.168.111.27`.
+    #       you also need to set an env var `- PHP_IDE_CONFIG=serverName=docker`
   fi
 else
     if [ -f $XdebugFile ]; then
@@ -205,7 +193,7 @@ if [ ! -z "$PUID" ]; then
   adduser -D -S -h /var/cache/nginx -s /sbin/nologin -G nginx -u ${PUID} nginx
 else
   if [ -z "$SKIP_CHOWN" ]; then
-    chown -Rf nginx.nginx /var/www/html
+    chown -Rf nginx:nginx /var/www/html
   fi
 fi
 
