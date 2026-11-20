@@ -9,8 +9,8 @@
 
 ARG DISTRO=alpine
 ARG DISTRO_VER=3.24
-ARG VER_DOCKER_IMAGE=2.3.1-php8.5
-ARG VER_PHP=8.5.12
+ARG VER_DOCKER_IMAGE=2.3.2-php8.5
+ARG VER_PHP=8.5.13
 
 #############################
 # Settings Common Variables #

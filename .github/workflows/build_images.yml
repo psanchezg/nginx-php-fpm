@@ -17,11 +17,11 @@ jobs:
       matrix:
         include:
           - php: '8.2'
-            php_version: '8.2.35'
+            php_version: '8.2.36'
           - php: '8.4'
-            php_version: '8.4.27'
+            php_version: '8.4.28'
           - php: '8.5'
-            php_version: '8.5.12'
+            php_version: '8.5.13'
 
     steps:
       - name: Checkout
